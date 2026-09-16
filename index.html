@@ -2878,6 +2878,12 @@
     ================================================================ */
     let isAudioUnlocked = false;
 
+    function markAudioUnlocked() {
+      isAudioUnlocked = true;
+      window.removeEventListener('click', unlockAudio, { capture: true });
+      window.removeEventListener('touchstart', unlockAudio, { capture: true });
+    }
+
     // Initialize toggle button and synchronization listeners
     document.addEventListener('DOMContentLoaded', () => {
       const musicToggle = document.getElementById('music-toggle');
@@ -2886,6 +2892,11 @@
       if (musicToggle && bgMusic) {
         musicToggle.addEventListener('click', (e) => {
           e.stopPropagation();
+          // The user just took explicit control via a real tap — that tap alone is enough
+          // to satisfy the browser's autoplay-gesture requirement, so stop the generic
+          // first-tap-anywhere unlocker from firing later and overriding this choice
+          // (e.g. re-triggering play() on some unrelated later tap after the user paused).
+          markAudioUnlocked();
           if (bgMusic.paused) {
             bgMusic.volume = 0.5;
             bgMusic.play()
@@ -2908,17 +2919,23 @@
       }
     });
 
-    function unlockAudio() {
+    function unlockAudio(e) {
       if (isAudioUnlocked) return;
+      // Let the music toggle button handle its own tap: it already calls bgMusic.play()
+      // directly from a genuine click, which satisfies the browser's gesture requirement
+      // on its own. If this capture-phase handler also called play() first, .paused would
+      // flip to false before the toggle's own (bubble-phase) click handler runs — so it
+      // would read "already playing" and immediately call pause() in response to that same
+      // tap. That's why a first tap on the button looked like "playing" while staying silent,
+      // and only a second tap actually produced sound.
+      if (e && e.target && e.target.closest && e.target.closest('#music-toggle')) return;
       const bgMusic = document.getElementById('bg-music');
       if (bgMusic) {
         bgMusic.volume = 0.5;
         bgMusic.play()
           .then(() => {
-            isAudioUnlocked = true;
             console.log("Audio unlocked successfully");
-            window.removeEventListener('click', unlockAudio, { capture: true });
-            window.removeEventListener('touchstart', unlockAudio, { capture: true });
+            markAudioUnlocked();
           })
           .catch(e => {
             console.log("Audio unlock failed on gesture:", e);
