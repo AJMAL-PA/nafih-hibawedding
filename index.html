@@ -4,9 +4,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>GROOM & BRIDE — Wedding Invitation</title>
+  <title>Abdul Nafih &amp; Hiba Sajid — Wedding Invitation</title>
   <meta name="description"
-    content="You are cordially invited to the blessed wedding celebration of Groom Name & Bride Name. July 8, 2027.">
+    content="You are cordially invited to the blessed wedding celebration of Abdul Nafih &amp; Hiba Sajid. October 16, 2026.">
+  <meta name="theme-color" content="#2a0710">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link
@@ -14,14 +15,13 @@
     rel="stylesheet">
   <style>
     :root {
-      --dark: #30623a;
-      --dark2: #a0aea2;
-      --emerald: #6B8F71;
-      --em-light: #A3D1AD;
-      --gold: #b89742;
-      --gold-hi: #d4b45d;
-      --gold-lo: #7c8e7e;
-      --cream: #1b3b2f;
+      --dark: #2a0710;
+      --wine: #4a0f1e;
+      --wine-hi: #6b1a2e;
+      --gold: #d2ae68;
+      --gold-hi: #f1d898;
+      --gold-lo: #b3906b;
+      --cream: #f4e7d3;
       --white: #ffffff;
       --circ: 339.29;
     }
@@ -37,6 +37,7 @@
 
     html {
       scroll-behavior: smooth;
+      background: var(--dark);
     }
 
     body {
@@ -49,10 +50,6 @@
     body.no-scroll {
       overflow: hidden !important;
       height: 100vh;
-    }
-
-    html {
-      scroll-behavior: smooth;
     }
 
     /* ——— SCROLLBAR ——— */
@@ -74,371 +71,100 @@
       content: '';
       position: fixed;
       inset: 0;
-      background-image: url('assets/download (16).jpeg');
-      background-size: cover;
-      background-position: center;
-      background-repeat: no-repeat;
-      opacity: 0.08;
+      background: radial-gradient(circle at 50% 50%, rgba(212, 175, 55, 0.03) 0%, transparent 80%);
       pointer-events: none;
       z-index: 0;
     }
 
-    /* ========== SCRATCH REVEAL — MAROON & OFF-WHITE ========== */
-    #scratch-reveal {
+    /* ========== ENVELOPE COVER ========== */
+    #envelope-cover-screen {
       position: fixed;
       inset: 0;
       z-index: 10000;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: #ffffff url('assets/ChatGPT Image Jun 11, 2026, 01_26_14 PM.png') center/contain no-repeat;
       overflow: hidden;
-      transition: opacity 1.5s cubic-bezier(0.4, 0, 0.2, 1), transform 1.5s cubic-bezier(0.4, 0, 0.2, 1);
+      background: #4d101c;
+      transition: opacity 1.2s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
-    @media (max-width: 900px) {
-      #scratch-reveal {
-        background-size: 100% 100%;
-      }
-    }
-
-    #scratch-reveal.hidden {
+    #envelope-cover-screen.is-leaving {
       opacity: 0;
-      transform: scale(1.05);
       pointer-events: none;
     }
 
-    .scratch-content {
+    /* Sized to the artwork's own aspect ratio so the flap hinge is the real top edge of the envelope */
+    .env-stage {
       position: absolute;
-      inset: 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      z-index: 1;
-      overflow: hidden;
-    }
-
-    .scratch-content::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
-      /* Perfectly fit responsive viewport */
-      height: 100dvh;
-      /* Dynamic viewport height for mobile */
-      background: #350b14 url('assets/download (33).jpeg') center/contain no-repeat;
-      z-index: -1;
-    }
-
-    @media (max-width: 900px) {
-      .scratch-content::before {
-        background-size: 100% 100%;
-      }
-    }
-
-    .scratch-inner-card {
-      position: relative;
-      width: min(88vw, 420px);
-      padding: 2rem 1rem;
-      text-align: center;
-      /* Removed square box background and borders */
-    }
-
-    /* Top decorative diamond */
-    .scratch-top-diamond {
-      color: #d4af37;
-      font-size: 1.2rem;
-      letter-spacing: 0.5em;
-      margin-bottom: 1rem;
-      opacity: 0;
-      transform: translateY(-10px);
-      transition: opacity 0.8s ease, transform 0.8s ease;
-    }
-
-    .scratch-content.revealed .scratch-top-diamond {
-      opacity: 0.6;
-      transform: translateY(0);
-    }
-
-    /* Name letters — hidden by default, revealed by scratching */
-    .scratch-letter {
-      display: inline-block;
-      opacity: 0;
-      transform: scale(0.3) translateY(20px);
-      filter: blur(12px);
-      transition: none;
-    }
-
-    .scratch-letter.revealed {
-      opacity: 1;
-      transform: scale(1) translateY(0);
-      filter: blur(0);
-      animation: letterRevealGlow 0.6s cubic-bezier(0.23, 1, 0.32, 1) forwards;
-    }
-
-    @keyframes letterRevealGlow {
-      0% {
-        opacity: 0;
-        transform: scale(0.3) translateY(20px);
-        filter: blur(12px);
-        text-shadow: 0 0 0 transparent;
-      }
-
-      40% {
-        opacity: 0.8;
-        transform: scale(1.15) translateY(-5px);
-        filter: blur(0);
-        text-shadow: 0 0 30px rgba(212, 175, 55, 0.9), 0 0 60px rgba(250, 245, 239, 0.6);
-      }
-
-      70% {
-        transform: scale(0.95) translateY(2px);
-        text-shadow: 0 0 15px rgba(212, 175, 55, 0.6), 0 0 30px rgba(250, 245, 239, 0.4);
-      }
-
-      100% {
-        opacity: 1;
-        transform: scale(1) translateY(0);
-        filter: blur(0);
-        text-shadow: 0 0 10px rgba(212, 175, 55, 0.3);
-      }
-    }
-
-    .scratch-letter.glint-active {
-      animation: letterGlint 0.6s ease-in-out forwards;
-    }
-
-    @keyframes letterGlint {
-      0% {
-        filter: brightness(1);
-        text-shadow: 0 0 10px rgba(212, 175, 55, 0.3);
-        transform: scale(1);
-      }
-
-      50% {
-        filter: brightness(1.5);
-        text-shadow: 0 0 30px #ffffff, 0 0 50px #ffffff;
-        transform: scale(1.1);
-      }
-
-      100% {
-        filter: brightness(1);
-        text-shadow: 0 0 10px rgba(212, 175, 55, 0.3);
-        transform: scale(1);
-      }
-    }
-
-    .scratch-bismillah {
-      font-family: 'Amiri', serif;
-      font-size: clamp(1.2rem, 3.5vw, 1.8rem);
-      color: #000000;
-      direction: rtl;
-      text-shadow: 0 0 20px rgba(212, 175, 55, 0.4);
-      margin-bottom: 1.5rem;
-      opacity: 0;
-      transform: translateY(-10px);
-      transition: opacity 0.8s ease 0.2s, transform 0.8s ease 0.2s;
-    }
-
-    .scratch-orn {
-      width: 180px;
-      height: 1px;
-      background: linear-gradient(90deg, transparent, #ffffff, transparent);
-      margin: 1rem auto;
-      opacity: 0;
-      transform: scaleX(0);
-      transition: opacity 0.8s ease 0.3s, transform 0.8s ease 0.3s;
-    }
-
-    .scratch-name {
-      font-family: 'Petemoss', cursive;
-      font-size: clamp(4.5rem, 14vw, 9.5rem);
-      font-weight: 400;
-      color: #000000;
-      line-height: 0.95;
-      text-shadow: none;
-    }
-
-    .scratch-amp {
-      font-family: 'Petemoss', cursive;
-      font-size: clamp(2.5rem, 7vw, 4.5rem);
-      color: #000000;
-      text-shadow: none;
-      margin: 0.2rem 0;
-    }
-
-    .scratch-blessing {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: clamp(0.9rem, 2.2vw, 1.2rem);
-      font-style: italic;
-      color: rgba(27, 59, 47, 0.9);
-      letter-spacing: 0.06em;
-      margin-top: 1.5rem;
-      opacity: 0;
-      transform: translateY(10px);
-      transition: opacity 0.8s ease 0.4s, transform 0.8s ease 0.4s;
-    }
-
-    .scratch-content.revealed .scratch-bismillah,
-    .scratch-content.revealed .scratch-blessing {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    .scratch-content.revealed .scratch-orn {
-      opacity: 1;
-      transform: scaleX(1);
-    }
-
-    #scratch-canvas {
-      position: absolute;
-      inset: 0;
-      z-index: 2;
-      cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32"><circle cx="16" cy="16" r="14" fill="%236B1D2A" stroke="%23d4af37" stroke-width="2"/><path d="M16 6 L18.5 13 L26 13 L20 18 L22.5 25 L16 21 L9.5 25 L12 18 L6 13 L13.5 13 Z" fill="%23d4af37"/></svg>') 16 16, auto;
-      touch-action: none;
-    }
-
-    #scratch-particles {
-      position: absolute;
-      inset: 0;
-      z-index: 3;
-      pointer-events: none;
-    }
-
-    /* Custom cursor trail canvas */
-    #scratch-cursor-trail {
-      position: absolute;
-      inset: 0;
-      z-index: 4;
-      pointer-events: none;
-    }
-
-    .scratch-hint {
-      position: absolute;
-      top: 50%;
       left: 50%;
-      transform: translate(-50%, 0);
-      margin-top: 3.5rem;
-      z-index: 5;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 0.8rem;
-      opacity: 0;
-      animation: scratchHintAppear 1.2s ease 0.8s forwards;
-      pointer-events: none;
-    }
-
-    .scratch-hint-icon {
-      width: 28px;
-      height: 28px;
-      animation: scratchSwipe 2s ease-in-out infinite;
-      filter: drop-shadow(0 2px 6px rgba(107, 29, 42, 0.25));
-    }
-
-    .scratch-hint-text {
-      font-family: 'Cinzel', serif;
-      font-size: 0.55rem;
-      font-weight: 400;
-      letter-spacing: 0.45em;
-      text-transform: uppercase;
-      color: #6B1D2A;
-      text-shadow: 0 1px 8px rgba(107, 29, 42, 0.15);
-      animation: scratchHintPulse 2.8s ease-in-out infinite;
-      position: relative;
-    }
-
-    .scratch-hint-text::before,
-    .scratch-hint-text::after {
-      content: '';
-      position: absolute;
       top: 50%;
-      width: 28px;
-      height: 1px;
-      background: linear-gradient(90deg, transparent, rgba(107, 29, 42, 0.35), transparent);
-      transform: translateY(-50%);
+      width: max(100vw, calc(100vh * 941 / 1672));
+      aspect-ratio: 941 / 1672;
+      opacity: 0;
+      transform: translate(-50%, -50%) scale(1.035);
+      transition: opacity 1s ease, transform 6s cubic-bezier(0.22, 1, 0.36, 1);
+      perspective: 1700px;
+      perspective-origin: 50% 12%;
     }
 
-    .scratch-hint-text::before {
-      right: calc(100% + 10px);
+    #envelope-cover-screen.is-ready .env-stage {
+      opacity: 1;
+      transform: translate(-50%, -50%) scale(1);
     }
 
-    .scratch-hint-text::after {
-      left: calc(100% + 10px);
+    #envelope-cover-screen.is-leaving .env-stage {
+      transform: translate(-50%, -50%) scale(1.06);
+      transition: opacity 1s ease, transform 1.4s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
-    @keyframes scratchHintAppear {
-      from {
-        opacity: 0;
-        transform: translate(-50%, 15px);
-      }
-
-      to {
-        opacity: 1;
-        transform: translate(-50%, 0);
-      }
+    .env-layer {
+      position: absolute;
+      inset: 0;
+      background-size: 100% 100%;
+      background-repeat: no-repeat;
     }
 
-    @keyframes scratchHintPulse {
-
-      0%,
-      100% {
-        opacity: 0.45;
-      }
-
-      50% {
-        opacity: 1;
-      }
+    .env-body {
+      background-image: url('assets/envelope-body.jpg');
     }
 
-    @keyframes scratchSwipe {
-
-      0%,
-      100% {
-        transform: translateX(0) rotate(0deg);
-        opacity: 0.7;
-      }
-
-      25% {
-        transform: translateX(12px) rotate(-8deg);
-        opacity: 1;
-      }
-
-      50% {
-        transform: translateX(-12px) rotate(8deg);
-        opacity: 1;
-      }
-
-      75% {
-        transform: translateX(6px) rotate(-4deg);
-        opacity: 0.8;
-      }
+    .env-flap {
+      background-image: url('assets/envelope-flap.png');
+      transform-origin: 50% 0%;
+      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
+      filter: drop-shadow(0 3px 4px rgba(25, 3, 8, 0.35));
+      will-change: transform;
     }
 
-    .scratch-dissolve {
-      animation: scratchDissolve 1.8s cubic-bezier(0.77, 0, 0.175, 1) forwards;
+    /* Soft shadow the lifting flap casts on the envelope; invisible while closed */
+    .env-flap-shadow {
+      background: rgb(24, 3, 9);
+      -webkit-mask: url('assets/envelope-flap.png') 0 0 / 100% 100% no-repeat;
+      mask: url('assets/envelope-flap.png') 0 0 / 100% 100% no-repeat;
+      transform-origin: 50% 0%;
+      opacity: 0;
+      will-change: transform, opacity, filter;
     }
 
-    @keyframes scratchDissolve {
-      0% {
-        opacity: 1;
-        transform: scale(1);
-        filter: blur(0);
-      }
+    /* Hero Section Islamic Additions */
+    .hero-bismillah {
+      font-family: 'Amiri', serif;
+      font-size: clamp(1.3rem, 3.8vw, 2.2rem);
+      color: var(--gold);
+      direction: rtl;
+      letter-spacing: 0.05em;
+      text-shadow: 0 0 25px rgba(212, 175, 55, 0.4);
+      margin-bottom: 0.8rem;
+    }
 
-      40% {
-        opacity: 0.7;
-        transform: scale(1.02);
-        filter: blur(1px);
-      }
-
-      100% {
-        opacity: 0;
-        transform: scale(1.06);
-        filter: blur(6px);
-      }
+    .hero-quran-verse {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(0.85rem, 2.2vw, 1.15rem);
+      font-style: italic;
+      color: rgba(27, 59, 47, 0.85);
+      letter-spacing: 0.05em;
+      margin-top: 0.5rem;
+      max-width: 480px;
+      line-height: 1.5;
     }
 
     /* ========== OPENING SCREEN ========== */
@@ -844,7 +570,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      background: #ffffff url('./assets/home-bg-v2.jpeg?v=99') center center / 100% 100% no-repeat scroll;
+      background: var(--dark);
       overflow: hidden;
     }
 
@@ -2024,10 +1750,6 @@
       }
 
       #hero {
-        background-image: url('assets/download (37).jpeg') !important;
-        background-size: cover !important;
-        background-position: center !important;
-        background-repeat: no-repeat !important;
         min-height: 100dvh !important;
       }
 
@@ -2125,7 +1847,6 @@
       }
 
       #site-footer {
-        background: rgba(212, 230, 216, 0.5) !important;
         padding: 1.5rem 1rem !important;
       }
 
@@ -2317,115 +2038,7 @@
       }
     }
 
-    /* ========== PRELOADER STYLES ========== */
-    #preloader {
-      position: fixed;
-      inset: 0;
-      background: #ffffff;
-      z-index: 99999;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      transition: opacity 0.8s cubic-bezier(0.77, 0, 0.175, 1), visibility 0.8s;
-      overflow: hidden;
-    }
 
-    #preloader.loaded {
-      opacity: 0;
-      visibility: hidden;
-      pointer-events: none;
-    }
-
-    #preloader-canvas {
-      position: absolute;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      pointer-events: none;
-      z-index: 1;
-    }
-
-    .preloader-content {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 1.5rem;
-      position: relative;
-      z-index: 10;
-    }
-
-    .preloader-svg {
-      transform: rotate(-90deg);
-      filter: drop-shadow(0 4px 15px rgba(27, 59, 47, 0.06));
-    }
-
-    .pre-ring {
-      stroke-dasharray: 283;
-      stroke-dashoffset: 283;
-      animation: traceStroke 2.2s cubic-bezier(0.4, 0, 0.2, 1) forwards;
-    }
-
-    .pre-leaf-path {
-      stroke-dasharray: 50;
-      stroke-dashoffset: 50;
-      animation: traceStroke 1.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
-    }
-
-    .pre-leaf-path:nth-child(2) {
-      animation-delay: 0.3s;
-    }
-
-    .pre-leaf-path:nth-child(3) {
-      animation-delay: 0.5s;
-    }
-
-    .pre-leaf-path:nth-child(4) {
-      animation-delay: 0.7s;
-    }
-
-    .pre-leaf-path:nth-child(5) {
-      animation-delay: 0.9s;
-    }
-
-    .pre-initials {
-      opacity: 0;
-      transform: scale(0.9) rotate(90deg);
-      transform-origin: 60px 60px;
-      animation: initialsFadeIn 1.5s ease 1.1s forwards;
-    }
-
-    .preloader-text {
-      font-family: 'Cinzel', serif;
-      font-size: 0.68rem;
-      font-weight: 400;
-      letter-spacing: 0.55em;
-      color: var(--cream);
-      text-align: center;
-      opacity: 0;
-      transform: translateY(10px);
-      animation: textFadeInUp 1.5s ease 1.3s forwards;
-    }
-
-    @keyframes traceStroke {
-      to {
-        stroke-dashoffset: 0;
-      }
-    }
-
-    @keyframes initialsFadeIn {
-      to {
-        opacity: 1;
-        transform: scale(1) rotate(90deg);
-      }
-    }
-
-    @keyframes textFadeInUp {
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
 
     /* Floating Music Toggle Button */
     .music-toggle-btn {
@@ -2513,83 +2126,370 @@
         transform: scaleY(1);
       }
     }
+
+    /* ================================================================
+       BURGUNDY & GOLD THEME — matches the envelope cover
+    ================================================================ */
+    ::selection {
+      background: rgba(210, 174, 104, 0.35);
+      color: #fff6e6;
+    }
+
+    #heavenly-bg-container {
+      background: radial-gradient(circle at 50% 40%, #4a0f1e 0%, #2a0710 70%, #1c040a 100%);
+    }
+
+    .ambient-glow {
+      background:
+        radial-gradient(circle at 10% 10%, rgba(210, 174, 104, 0.05) 0%, transparent 40%),
+        radial-gradient(circle at 90% 90%, rgba(210, 174, 104, 0.05) 0%, transparent 40%);
+    }
+
+    .luxury-viewport-frame {
+      border-color: rgba(210, 174, 104, 0.55);
+      box-shadow: 0 0 0 20px rgba(42, 7, 16, 1);
+      animation: framePulseWine 6s infinite ease-in-out;
+    }
+
+    @keyframes framePulseWine {
+      0%, 100% { box-shadow: 0 0 0 20px rgba(42, 7, 16, 1), inset 0 0 12px rgba(210, 174, 104, 0.05); }
+      50% { box-shadow: 0 0 0 20px rgba(42, 7, 16, 1), inset 0 0 40px rgba(210, 174, 104, 0.16); }
+    }
+
+    .luxury-viewport-frame::before {
+      border-color: rgba(210, 174, 104, 0.22);
+    }
+
+    .frame-corner {
+      border-color: rgba(241, 216, 152, 0.9);
+    }
+
+    #main {
+      background: var(--dark);
+    }
+
+    /* ——— HERO: burgundy velvet with gold-foil sprigs from the envelope ——— */
+    #hero {
+      background:
+        radial-gradient(ellipse 75% 42% at 50% 44%, rgba(122, 30, 50, 0.5) 0%, transparent 72%),
+        radial-gradient(ellipse 90% 40% at 50% 0%, rgba(92, 20, 38, 0.9) 0%, transparent 70%),
+        radial-gradient(ellipse 90% 35% at 50% 100%, rgba(74, 15, 30, 0.9) 0%, transparent 70%),
+        linear-gradient(180deg, #3b0a16 0%, #2a0710 55%, #22050e 100%);
+    }
+
+    #hero::after {
+      content: '';
+      position: absolute;
+      inset: clamp(34px, 6vw, 60px);
+      border: 1px solid rgba(210, 174, 104, 0.28);
+      border-radius: 2px;
+      pointer-events: none;
+    }
+
+    .hero-sprig {
+      position: absolute;
+      z-index: 2;
+      pointer-events: none;
+      user-select: none;
+      width: clamp(130px, 34vw, 300px);
+      height: auto;
+      opacity: 0.92;
+      filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.45));
+    }
+
+    .hero-sprig--tl {
+      top: -3%;
+      left: -9%;
+      transform: scaleX(-1) rotate(-8deg);
+      transform-origin: 70% 10%;
+      animation: sprigSwayMirror 9s ease-in-out infinite;
+    }
+
+    .hero-sprig--tr {
+      top: -3%;
+      right: -9%;
+      transform: rotate(-8deg);
+      transform-origin: 30% 10%;
+      animation: sprigSway 10s ease-in-out infinite;
+    }
+
+    .hero-sprig--bl {
+      bottom: -4%;
+      left: -6%;
+      width: clamp(120px, 31vw, 270px);
+      transform-origin: 40% 100%;
+      animation: sprigSway 11s ease-in-out infinite;
+    }
+
+    .hero-sprig--br {
+      bottom: -4%;
+      right: -6%;
+      width: clamp(120px, 31vw, 270px);
+      transform: scaleX(-1);
+      transform-origin: 60% 100%;
+      animation: sprigSwayMirror 12s ease-in-out infinite;
+    }
+
+    @keyframes sprigSway {
+      0%, 100% { rotate: 0deg; }
+      50% { rotate: 1.6deg; }
+    }
+
+    @keyframes sprigSwayMirror {
+      0%, 100% { rotate: 0deg; }
+      50% { rotate: -1.6deg; }
+    }
+
+    .hero-bismillah {
+      color: var(--gold-hi);
+      text-shadow: 0 0 22px rgba(210, 174, 104, 0.45);
+    }
+
+    .hero-badge {
+      color: var(--gold);
+    }
+
+    .shiny-text {
+      background-image: linear-gradient(120deg, #c9a05a 30%, #fff0c8 50%, #c9a05a 70%);
+    }
+
+    .couple-names .amp {
+      color: var(--gold-hi);
+      text-shadow: 0 0 30px rgba(210, 174, 104, 0.55);
+    }
+
+    .hero-tagline,
+    .hero-quran-verse {
+      color: rgba(244, 231, 211, 0.86);
+    }
+
+    .scroll-hint span {
+      color: var(--gold-lo);
+    }
+
+    /* ——— SECTIONS ——— */
+    .sec-wrap {
+      background:
+        radial-gradient(ellipse 80% 60% at 50% 0%, rgba(107, 26, 46, 0.35) 0%, transparent 70%),
+        var(--dark);
+    }
+
+    .sec-wrap::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 50%;
+      width: min(420px, 70%);
+      height: 1px;
+      transform: translateX(-50%);
+      background: linear-gradient(90deg, transparent, rgba(210, 174, 104, 0.55), transparent);
+      pointer-events: none;
+    }
+
+    #sec-family,
+    #sec-count,
+    #sec-blessings {
+      background:
+        radial-gradient(ellipse 80% 60% at 50% 0%, rgba(122, 30, 50, 0.28) 0%, transparent 70%),
+        #310915;
+    }
+
+    .sec-heading,
+    #sec-count .sec-heading {
+      color: var(--cream);
+    }
+
+    #sec-count .sec-heading::before {
+      color: rgba(210, 174, 104, 0.3);
+    }
+
+    .family-label,
+    .ev-label {
+      color: rgba(210, 174, 104, 0.85);
+    }
+
+    .family-name,
+    .ev-val {
+      color: var(--cream);
+    }
+
+    .family-divider {
+      background: linear-gradient(180deg, transparent, rgba(210, 174, 104, 0.6), transparent);
+    }
+
+    .glass-card {
+      background: linear-gradient(160deg, rgba(92, 20, 38, 0.55) 0%, rgba(42, 7, 16, 0.6) 100%);
+      border: 1px solid rgba(210, 174, 104, 0.32);
+      box-shadow: 0 18px 50px rgba(10, 1, 4, 0.55), inset 0 1px 0 rgba(241, 216, 152, 0.08);
+    }
+
+    .glass-card:hover,
+    .card-nikah:hover,
+    .card-reception:hover {
+      background: linear-gradient(160deg, rgba(107, 26, 46, 0.62) 0%, rgba(48, 9, 19, 0.66) 100%) !important;
+      border-color: rgba(210, 174, 104, 0.6) !important;
+      box-shadow: 0 22px 60px rgba(10, 1, 4, 0.6), 0 0 30px rgba(210, 174, 104, 0.12) !important;
+    }
+
+    .glass-card::after {
+      background: linear-gradient(90deg, transparent, rgba(241, 216, 152, 0.12), transparent);
+    }
+
+    .ev-sub,
+    .verse-trans,
+    .blessing-text {
+      color: rgba(244, 231, 211, 0.82);
+    }
+
+    .blessing-text em {
+      color: rgba(244, 231, 211, 0.55) !important;
+    }
+
+    .loc-btn {
+      border-color: rgba(210, 174, 104, 0.55);
+      color: var(--gold-hi);
+    }
+
+    .loc-btn:hover {
+      background: rgba(210, 174, 104, 0.1);
+      box-shadow: 0 0 25px rgba(210, 174, 104, 0.25);
+    }
+
+    .cd-bg {
+      stroke: rgba(210, 174, 104, 0.16);
+    }
+
+    .cd-num {
+      color: var(--cream);
+    }
+
+    .blessing-card {
+      background: linear-gradient(160deg, rgba(92, 20, 38, 0.5) 0%, rgba(42, 7, 16, 0.55) 100%);
+      border: 1px solid rgba(210, 174, 104, 0.22);
+    }
+
+    .blessing-card:hover {
+      border-color: rgba(210, 174, 104, 0.5);
+      box-shadow: 0 14px 36px rgba(10, 1, 4, 0.5);
+    }
+
+    .blessing-quote {
+      color: rgba(210, 174, 104, 0.45);
+    }
+
+    #sec-close {
+      background:
+        radial-gradient(ellipse at 50% 100%, rgba(210, 174, 104, 0.1) 0%, transparent 60%),
+        linear-gradient(180deg, #2a0710 0%, #3a0a17 100%);
+    }
+
+    .close-msg {
+      color: var(--cream);
+    }
+
+    .orb {
+      background: radial-gradient(circle, rgba(210, 174, 104, 0.22) 0%, transparent 70%);
+    }
+
+    /* ——— FOOTER & MUSIC ——— */
+    #site-footer {
+      background:
+        radial-gradient(ellipse 70% 100% at 50% 0%, rgba(210, 174, 104, 0.07) 0%, transparent 65%),
+        linear-gradient(180deg, #3a0a17 0%, #2a0710 100%);
+      border-top: 1px solid rgba(210, 174, 104, 0.25);
+    }
+
+    .footer-credit {
+      color: rgba(244, 231, 211, 0.55);
+    }
+
+    .music-toggle-btn {
+      background: rgba(74, 15, 30, 0.7);
+      border-color: rgba(210, 174, 104, 0.55);
+    }
+
+    @media (max-width: 900px) {
+      .glass-card {
+        background: linear-gradient(160deg, rgba(92, 20, 38, 0.55) 0%, rgba(42, 7, 16, 0.6) 100%);
+      }
+    }
+
+    @media (max-width: 700px) {
+      .luxury-viewport-frame {
+        box-shadow: 0 0 0 10px rgba(42, 7, 16, 1);
+        animation: framePulseWineMobile 6s infinite ease-in-out;
+      }
+
+      @keyframes framePulseWineMobile {
+        0%, 100% { box-shadow: 0 0 0 10px rgba(42, 7, 16, 1), inset 0 0 10px rgba(210, 174, 104, 0.05); }
+        50% { box-shadow: 0 0 0 10px rgba(42, 7, 16, 1), inset 0 0 28px rgba(210, 174, 104, 0.14); }
+      }
+
+      #hero {
+        background-image:
+          radial-gradient(ellipse 80% 40% at 50% 44%, rgba(122, 30, 50, 0.5) 0%, transparent 72%),
+          radial-gradient(ellipse 100% 35% at 50% 0%, rgba(92, 20, 38, 0.9) 0%, transparent 70%),
+          radial-gradient(ellipse 100% 30% at 50% 100%, rgba(74, 15, 30, 0.9) 0%, transparent 70%),
+          linear-gradient(180deg, #3b0a16 0%, #2a0710 55%, #22050e 100%) !important;
+      }
+
+      #hero::after {
+        inset: 26px;
+      }
+
+      .hero-sprig--tl,
+      .hero-sprig--tr {
+        top: -7%;
+        width: 40vw;
+      }
+
+      .hero-sprig--tl { left: -14%; }
+      .hero-sprig--tr { right: -14%; }
+
+      .hero-sprig--bl,
+      .hero-sprig--br {
+        bottom: -3%;
+        width: 36vw;
+      }
+
+      .family-divider {
+        background: linear-gradient(90deg, transparent, rgba(210, 174, 104, 0.6), transparent);
+      }
+
+      .glass-card,
+      .reveal.in .card-nikah,
+      .reveal.in .card-reception {
+        background: linear-gradient(160deg, rgba(92, 20, 38, 0.45) 0%, rgba(42, 7, 16, 0.5) 100%) !important;
+        border-color: rgba(210, 174, 104, 0.4) !important;
+      }
+
+      #site-footer {
+        background:
+          radial-gradient(ellipse 70% 100% at 50% 0%, rgba(210, 174, 104, 0.07) 0%, transparent 65%),
+          linear-gradient(180deg, #3a0a17 0%, #2a0710 100%) !important;
+      }
+
+      .blessing-card {
+        background: linear-gradient(160deg, rgba(92, 20, 38, 0.5) 0%, rgba(42, 7, 16, 0.55) 100%);
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .hero-sprig { animation: none; }
+    }
   </style>
 </head>
 
 <body class="no-scroll">
 
   <!-- ============================================================ -->
-  <!--               SCRATCH-TO-REVEAL EXPERIENCE                   -->
+  <!--                       ENVELOPE COVER                          -->
   <!-- ============================================================ -->
-  <div id="scratch-reveal">
-
-    <!-- Revealed Content (beneath scratch) -->
-    <div class="scratch-content" id="scratch-content">
-      <div class="scratch-inner-card">
-        <div class="scratch-top-diamond">✦ ✦ ✦</div>
-        <div class="scratch-bismillah">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</div>
-        <div class="scratch-orn"></div>
-        <div class="scratch-name"><span class="scratch-letter">G</span><span class="scratch-letter">r</span><span
-            class="scratch-letter">o</span><span class="scratch-letter">o</span><span class="scratch-letter">m</span>
-        </div>
-        <div class="scratch-amp"><span class="scratch-letter">&amp;</span></div>
-        <div class="scratch-name"><span class="scratch-letter">B</span><span class="scratch-letter">r</span><span
-            class="scratch-letter">i</span><span class="scratch-letter">d</span><span class="scratch-letter">e</span>
-        </div>
-        <div class="scratch-orn"></div>
-        <div class="scratch-blessing">Two souls, one path — blessed by Allah</div>
-        <div class="scratch-top-diamond" style="margin-bottom:0; margin-top:1rem">✦ ✦ ✦</div>
-      </div>
-    </div>
-
-
-
-    <!-- Scratch Canvas (top layer) -->
-    <canvas id="scratch-canvas"></canvas>
-
-    <!-- Particle Canvas -->
-    <canvas id="scratch-particles"></canvas>
-
-    <!-- Cursor Trail Canvas -->
-    <canvas id="scratch-cursor-trail"></canvas>
-
-    <!-- Hint -->
-    <div class="scratch-hint" id="scratch-hint">
-      <svg class="scratch-hint-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path
-          d="M6.5 12.5C5.5 11.5 4 10.5 4 8.5C4 7.12 5.12 6 6.5 6C7.88 6 9 7.12 9 8.5V12M9 8.5V4.5C9 3.12 10.12 2 11.5 2C12.88 2 14 3.12 14 4.5V8.5M14 6.5C14 5.12 15.12 4 16.5 4C17.88 4 19 5.12 19 6.5V12.5M14 8.5V8.5C14 7.12 15.12 6 16.5 6"
-          stroke="#6B1D2A" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" opacity="0.7" />
-        <path d="M19 12.5V6.5M9 12V8.5M6.5 17C6.5 20 9 22 12 22C15 22 19 20 19 16V12.5" stroke="#6B1D2A"
-          stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" opacity="0.7" />
-      </svg>
-      <span class="scratch-hint-text">Scratch to reveal</span>
-    </div>
-  </div>
-
-  <!-- Preloader Overlay -->
-  <div id="preloader">
-    <canvas id="preloader-canvas"></canvas>
-    <div class="preloader-content">
-      <div class="preloader-geom">
-        <svg viewBox="0 0 120 120" width="120" height="120" class="preloader-svg">
-          <!-- Elegant thin circular frame -->
-          <circle class="pre-ring" cx="60" cy="60" r="45" fill="none" stroke="var(--gold)" stroke-width="1" />
-
-          <!-- Stylized leaf motifs winding around the circle -->
-          <path class="pre-leaf-path" d="M60,15 C65,22 75,25 72,35 C70,40 62,38 60,30" fill="none" stroke="var(--cream)"
-            stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" />
-          <path class="pre-leaf-path" d="M60,105 C55,98 45,95 48,85 C50,80 58,82 60,90" fill="none"
-            stroke="var(--cream)" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" />
-          <path class="pre-leaf-path" d="M15,60 C22,65 25,75 35,72 C40,70 38,62 30,60" fill="none" stroke="var(--cream)"
-            stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" />
-          <path class="pre-leaf-path" d="M105,60 C98,55 95,45 85,48 C80,50 82,58 90,60" fill="none"
-            stroke="var(--cream)" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" />
-
-          <!-- Center Initials G & B -->
-          <text class="pre-initials" x="60" y="67" font-family="'Cormorant Garamond', serif" font-size="20"
-            font-weight="300" fill="var(--cream)" text-anchor="middle" letter-spacing="1">G & B</text>
-        </svg>
-      </div>
+  <div id="envelope-cover-screen" aria-hidden="true">
+    <div class="env-stage">
+      <div class="env-layer env-body"></div>
+      <div class="env-layer env-flap-shadow"></div>
+      <div class="env-layer env-flap"></div>
     </div>
   </div>
 
@@ -2615,16 +2515,21 @@
 
     <!-- ——— HERO ——— -->
     <section id="hero">
+      <img class="hero-sprig hero-sprig--tl" src="assets/gold-sprig-branch.png" alt="" aria-hidden="true">
+      <img class="hero-sprig hero-sprig--tr" src="assets/gold-sprig-branch.png" alt="" aria-hidden="true">
+      <img class="hero-sprig hero-sprig--bl" src="assets/gold-sprig-leaves.png" alt="" aria-hidden="true">
+      <img class="hero-sprig hero-sprig--br" src="assets/gold-sprig-leaves.png" alt="" aria-hidden="true">
       <div class="hero-inner">
         <div class="hero-header-group">
+          <div class="hero-bismillah reveal">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</div>
           <div class="hero-badge reveal">
             <div>Wedding Ceremony</div>
           </div>
 
           <h1 class="couple-names reveal reveal-delay-1">
-            <span class="shiny-text">Groom Name</span>
-            <span class="amp">&</span>
-            <span class="shiny-text">Bride Name</span>
+            <span class="shiny-text">Abdul Nafih</span>
+            <span class="amp">&amp;</span>
+            <span class="shiny-text">Hiba Sajid</span>
           </h1>
         </div>
 
@@ -2641,11 +2546,10 @@
           <p class="hero-tagline reveal reveal-delay-2 blur-text" data-animate="words" data-delay="100">
             Bound by faith, united in love
           </p>
-
           <div class="hero-date-bar reveal reveal-delay-3">
             <div class="gold-line"></div>
-            <div class="hero-date-text blur-text" data-animate="letters" data-delay="40">8 &nbsp;·&nbsp; JULY
-              &nbsp;·&nbsp; 2027</div>
+            <div class="hero-date-text blur-text" data-animate="letters" data-delay="40">16 &nbsp;·&nbsp; OCTOBER
+              &nbsp;·&nbsp; 2026</div>
             <div class="gold-line"></div>
           </div>
 
@@ -2670,29 +2574,13 @@
         <div class="family-grid">
           <!-- Groom's Side -->
           <div class="family-side">
-            <h3 class="family-title">Groom's Family</h3>
+            <h3 class="family-title">Abdul Nafih's Family</h3>
 
             <div class="family-member">
               <div class="family-label">Parents</div>
-              <div class="family-name">Groom's Father</div>
+              <div class="family-name">Abdul Salam MA</div>
               <div style="font-size: 1.1rem; color: var(--gold); margin: 0.2rem 0;">&amp;</div>
-              <div class="family-name">Groom's Mother</div>
-            </div>
-
-            <div class="family-member">
-              <div class="family-label">Grandparents</div>
-              <div class="family-name">Groom's Grandfather &amp; Groom's Grandmother</div>
-              <div style="font-size: 1.1rem; color: var(--gold); margin: 0.2rem 0;">&amp;</div>
-              <div class="family-name">Groom's Maternal Grandfather &amp; Groom's Maternal Grandmother</div>
-            </div>
-
-            <div class="family-member" style="margin-top: 2rem;">
-              <div class="family-label">Address</div>
-              <div class="family-name"
-                style="font-size: 0.95rem; font-weight: 300; line-height: 1.6; color: var(--gold-lo);">
-                Groom's House Name<br>
-                Groom's Street, City
-              </div>
+              <div class="family-name">Thahira Abdul Salam</div>
             </div>
           </div>
 
@@ -2700,30 +2588,13 @@
 
           <!-- Bride's Side -->
           <div class="family-side">
-            <h3 class="family-title">Bride's Family</h3>
+            <h3 class="family-title">Hiba Sajid's Family</h3>
 
             <div class="family-member">
               <div class="family-label">Parents</div>
-              <div class="family-name">Bride's Father</div>
+              <div class="family-name">Fathima Mohammed Sajid</div>
               <div style="font-size: 1.1rem; color: var(--gold); margin: 0.2rem 0;">&amp;</div>
-              <div class="family-name">Bride's Mother</div>
-            </div>
-
-            <div class="family-member">
-              <div class="family-label">Grandparents</div>
-              <div class="family-name">Bride's Grandfather &amp; Bride's Grandmother</div>
-              <div style="font-size: 1.1rem; color: var(--gold); margin: 0.2rem 0;">&amp;</div>
-              <div class="family-name">Bride's Maternal Grandfather &amp; Bride's Maternal Grandmother</div>
-            </div>
-
-            <div class="family-member" style="margin-top: 2rem;">
-              <div class="family-label">Address</div>
-              <div class="family-name"
-                style="font-size: 0.95rem; font-weight: 300; line-height: 1.6; color: var(--gold-lo);">
-                Bride's House Name<br>
-                Bride's Street, Area<br>
-                City
-              </div>
+              <div class="family-name">Mohammed Sajid</div>
             </div>
           </div>
         </div>
@@ -2756,22 +2627,21 @@
                 <div class="card-detail-item">
                   <span class="ev-icon">◈</span>
                   <div class="ev-label">Date &amp; Time</div>
-                  <div class="ev-val">July 8, 2027</div>
-                  <div class="ev-sub">THURSDAY · 4:00 PM - 9:00 PM</div>
+                  <div class="ev-val">October 16, 2026</div>
+                  <div class="ev-sub">FRIDAY</div>
                 </div>
 
                 <div class="card-detail-item">
                   <span class="ev-icon">✦</span>
                   <div class="ev-label">Venue</div>
-                  <div class="ev-val">Grand Plaza Convention Centre</div>
-                  <div class="ev-sub">Main Road, City Name</div>
+                  <div class="ev-val">Regency Hall</div>
                 </div>
               </div>
             </div>
 
             <div
               style="text-align:center;margin-top:2.5rem;padding-top:1.5rem;border-top:1px solid rgba(212,175,55,.1);">
-              <a href="https://maps.google.com"
+              <a href="https://www.google.com/maps/place/Regency+Halls/@25.2535013,51.5350641,17z/data=!3m1!4b1!4m6!3m5!1s0x3e45cfed47f672b3:0x2228c305d0be7b0b!8m2!3d25.2535013!4d51.5350641!16s%2Fg%2F1v76y37n!18m1!1e1?entry=ttu&amp;g_ep=EgoyMDI2MDkxMy4wIKXMDSoASAFQAw%3D%3D"
                 target="_blank" class="loc-btn">
                 <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"
                   stroke-linecap="round">
@@ -2941,7 +2811,7 @@
   <footer id="site-footer" class="reveal">
     <div class="footer-inner">
       <div class="footer-names">
-        Groom <span class="footer-amp">&amp;</span> Bride
+        Abdul Nafih <span class="footer-amp">&amp;</span> Hiba Sajid
       </div>
 
       <div class="footer-divider"></div>
@@ -3027,720 +2897,54 @@
     window.addEventListener('touchstart', unlockAudio, { capture: true, passive: true });
 
     /* ================================================================
-       PRELOADER CANVAS ANIMATION (White & Green Theme)
+       ENVELOPE COVER — opens by itself: the flap (with its wax seal)
+       lifts up and away, then the invitation crossfades in
     ================================================================ */
     (function () {
-      const canvas = document.getElementById('preloader-canvas');
-      if (!canvas) return;
-      const ctx = canvas.getContext('2d');
-      let w = canvas.width = window.innerWidth;
-      let h = canvas.height = window.innerHeight;
-      let petals = [];
-      let raf;
-      const isMobile = window.innerWidth <= 700;
-      const PETAL_COUNT = isMobile ? 25 : 55;
+      const cover = document.getElementById('envelope-cover-screen');
+      if (!cover) return;
+      const flap = cover.querySelector('.env-flap');
+      const flapShadow = cover.querySelector('.env-flap-shadow');
+      const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      const wait = ms => new Promise(r => setTimeout(r, ms));
+      // runs on the animation timeline, so a background tab can't skip ahead of the visuals
+      const beat = ms => cover.animate([], { duration: ms }).finished;
+      const preload = src => new Promise(r => { const img = new Image(); img.onload = img.onerror = r; img.src = src; });
 
-      window.addEventListener('resize', () => {
-        w = canvas.width = window.innerWidth;
-        h = canvas.height = window.innerHeight;
-      }, { passive: true });
+      const HOLD = reduceMotion ? 400 : 1600;
+      const OPEN = reduceMotion ? 700 : 2100;
+      const EASE = 'cubic-bezier(0.5, 0, 0.3, 1)';
 
-      function spawnPetal(firstTime = false) {
-        return {
-          x: Math.random() * w,
-          y: firstTime ? Math.random() * h : -20,
-          size: Math.random() * 8 + 4,
-          speedY: Math.random() * 1.2 + 0.6,
-          speedX: (Math.random() - 0.5) * 0.8,
-          rotation: Math.random() * Math.PI * 2,
-          rotSpeed: (Math.random() - 0.5) * 0.03,
-          color: Math.random() > 0.45
-            ? 'rgba(255, 255, 255, 0.8)'
-            : 'rgba(163, 209, 173, 0.55)',
-          isLeaf: Math.random() > 0.6
-        };
-      }
+      Promise.race([
+        Promise.all([preload('assets/envelope-body.jpg'), preload('assets/envelope-flap.png')]),
+        wait(5000)
+      ]).then(async () => {
+        await new Promise(r => requestAnimationFrame(() => requestAnimationFrame(r)));
+        cover.classList.add('is-ready');
+        await beat(HOLD);
 
-      for (let i = 0; i < PETAL_COUNT; i++) {
-        petals.push(spawnPetal(true));
-      }
+        // lifts toward the viewer and just past vertical, where it slips out over the top edge
+        flap.animate([
+          { transform: 'rotateX(0deg)' },
+          { transform: 'rotateX(104deg)' }
+        ], { duration: OPEN, easing: EASE, fill: 'forwards' });
 
-      function drawLeafShape(ctx, size) {
-        ctx.beginPath();
-        ctx.moveTo(0, -size);
-        ctx.quadraticCurveTo(size * 0.6, -size * 0.3, size * 0.2, size * 0.5);
-        ctx.quadraticCurveTo(0, size * 0.7, -size * 0.2, size * 0.5);
-        ctx.quadraticCurveTo(-size * 0.6, -size * 0.3, 0, -size);
-        ctx.fill();
-      }
+        // shadow follows the flap's angle: shortens, drifts down, softens, then disappears near vertical
+        flapShadow.animate([
+          { transform: 'translateY(0) scaleY(1)', opacity: 0, filter: 'blur(2px)' },
+          { transform: 'translateY(1.2%) scaleY(0.88)', opacity: 0.4, filter: 'blur(6px)', offset: 0.28 },
+          { transform: 'translateY(2.6%) scaleY(0.5)', opacity: 0.24, filter: 'blur(14px)', offset: 0.58 },
+          { transform: 'translateY(3.2%) scaleY(0.12)', opacity: 0, filter: 'blur(20px)', offset: 0.84 },
+          { transform: 'translateY(3.2%) scaleY(0.12)', opacity: 0, filter: 'blur(20px)' }
+        ], { duration: OPEN, easing: EASE, fill: 'forwards' });
 
-      function drawPetalShape(ctx, size) {
-        ctx.beginPath();
-        ctx.ellipse(0, 0, size * 0.5, size, 0, 0, Math.PI * 2);
-        ctx.fill();
-      }
-
-      function anim() {
-        ctx.clearRect(0, 0, w, h);
-        for (let i = 0; i < petals.length; i++) {
-          const p = petals[i];
-          p.y += p.speedY;
-          p.x += p.speedX;
-          p.rotation += p.rotSpeed;
-
-          if (p.y > h + 20 || p.x < -20 || p.x > w + 20) {
-            petals[i] = spawnPetal(false);
-            continue;
-          }
-
-          ctx.save();
-          ctx.translate(p.x, p.y);
-          ctx.rotate(p.rotation);
-          ctx.fillStyle = p.color;
-
-          if (p.isLeaf) {
-            drawLeafShape(ctx, p.size);
-          } else {
-            drawPetalShape(ctx, p.size);
-          }
-
-          ctx.restore();
-        }
-        raf = requestAnimationFrame(anim);
-      }
-
-      anim();
-
-      window._stopPreloaderAnim = () => {
-        cancelAnimationFrame(raf);
-      };
+        await beat(OPEN * 0.86);
+        cover.classList.add('is-leaving');
+        enterMainPage();
+        await beat(1300);
+        cover.remove();
+      });
     })();
-
-    /* ================================================================
-       PRELOADER FADE OUT
-    ================================================================ */
-    window.addEventListener('load', function () {
-      const preloader = document.getElementById('preloader');
-
-      // Initialize scratch reveal immediately so the canvas covers the content 
-      // BEFORE the preloader fades out.
-      initScratchReveal();
-
-      if (preloader) {
-        setTimeout(() => {
-          preloader.classList.add('loaded');
-          setTimeout(() => {
-            if (window._stopPreloaderAnim) window._stopPreloaderAnim();
-            preloader.remove();
-          }, 800);
-        }, 2500);
-      }
-    });
-
-    /* ================================================================
-       STARS — Opening Screen
-    ================================================================ */
-    (function () {
-      const cv = document.getElementById('stars-canvas');
-      const cx = cv.getContext('2d');
-      let stars = [], raf;
-      const isMobile = window.innerWidth <= 700;
-      const STAR_COUNT = isMobile ? 80 : 220;
-
-      function resize() {
-        cv.width = window.innerWidth;
-        cv.height = window.innerHeight;
-      }
-      function buildStars() {
-        stars = [];
-        for (let i = 0; i < STAR_COUNT; i++) {
-          stars.push({
-            x: Math.random() * cv.width,
-            y: Math.random() * cv.height,
-            r: Math.random() * 1.4 + .25,
-            t: Math.random() * Math.PI * 2,
-            ts: Math.random() * .018 + .006,
-            pulse: Math.random() < .15
-          });
-        }
-      }
-      function draw() {
-        cx.clearRect(0, 0, cv.width, cv.height);
-        for (let i = 0; i < stars.length; i++) {
-          const s = stars[i];
-          s.t += s.ts;
-          const op = (Math.sin(s.t) * .5 + .5) * (s.pulse ? .8 : .45) + .05;
-          cx.beginPath();
-          cx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
-          cx.fillStyle = `rgba(107,143,113,${op})`;
-          cx.fill();
-        }
-        raf = requestAnimationFrame(draw);
-      }
-      resize(); buildStars(); draw();
-      window.addEventListener('resize', () => { resize(); buildStars(); }, { passive: true });
-      window._stopStars = () => cancelAnimationFrame(raf);
-    })();
-
-    /* ================================================================
-       SCRATCH-TO-REVEAL ENGINE — White & Green Theme
-    ================================================================ */
-    function initScratchReveal() {
-      const container = document.getElementById('scratch-reveal');
-      const canvas = document.getElementById('scratch-canvas');
-      const ctx = canvas.getContext('2d');
-      const particleCanvas = document.getElementById('scratch-particles');
-      const pCtx = particleCanvas.getContext('2d');
-      const trailCanvas = document.getElementById('scratch-cursor-trail');
-      const tCtx = trailCanvas.getContext('2d');
-      const content = document.getElementById('scratch-content');
-      const hint = document.getElementById('scratch-hint');
-      const allLetters = document.querySelectorAll('.scratch-letter');
-
-      let w, h;
-      let isScratching = false;
-      let lastX = 0, lastY = 0;
-      let scratchComplete = false;
-      let particles = [];
-      let particleRAF;
-      let cursorTrails = [];
-      let trailRAF;
-      let drawX = 0, drawY = 0, drawW = 0, drawH = 0;
-      const isMobile = window.innerWidth <= 700;
-      const BRUSH_SIZE = isMobile ? 45 : 65;
-
-      // Maroon theme colors
-      let scratchImage = null;
-      let imageLoaded = false;
-
-      // Preload the invitation image
-      function loadScratchImage() {
-        scratchImage = new Image();
-        scratchImage.onload = function () {
-          imageLoaded = true;
-          drawScratchSurface();
-        };
-        scratchImage.src = 'assets/ChatGPT Image Jun 11, 2026, 01_26_14 PM.png';
-      }
-
-      // Size canvases
-      function resize() {
-        w = window.innerWidth;
-        h = window.innerHeight;
-        canvas.width = w;
-        canvas.height = h;
-        particleCanvas.width = w;
-        particleCanvas.height = h;
-        trailCanvas.width = w;
-        trailCanvas.height = h;
-        drawScratchSurface();
-      }
-
-      // Draw the invitation image as the scratch surface
-      function drawScratchSurface() {
-        // Fallback fill while image loads
-        ctx.fillStyle = '#ffffff';
-        ctx.fillRect(0, 0, w, h);
-
-        if (imageLoaded && scratchImage) {
-          const imgW = scratchImage.naturalWidth;
-          const imgH = scratchImage.naturalHeight;
-          const imgRatio = imgW / imgH;
-          const viewRatio = w / h;
-
-          if (viewRatio > imgRatio) {
-            // Landscape: fit to height
-            drawH = h;
-            drawW = h * imgRatio;
-            drawX = (w - drawW) / 2;
-            drawY = 0;
-          } else {
-            // Portrait/Mobile: stretch to fill 100% height and width
-            drawW = w;
-            drawH = h;
-            drawX = 0;
-            drawY = 0;
-          }
-
-          ctx.drawImage(scratchImage, drawX, drawY, drawW, drawH);
-        }
-      }
-
-      // ——— Real-Time Letter Reveal ———
-      function checkLetterReveal(scratchX, scratchY) {
-        const revealRadius = BRUSH_SIZE * 1.8;
-        allLetters.forEach(letter => {
-          if (letter.classList.contains('revealed')) return;
-          const rect = letter.getBoundingClientRect();
-          const letterCX = rect.left + rect.width / 2;
-          const letterCY = rect.top + rect.height / 2;
-          const dx = scratchX - letterCX;
-          const dy = scratchY - letterCY;
-          const dist = Math.sqrt(dx * dx + dy * dy);
-          if (dist < revealRadius) {
-            letter.classList.add('revealed');
-            // Golden sparkle burst on reveal
-            spawnParticles(letterCX, letterCY, 6);
-          }
-        });
-      }
-
-      // ——— Cursor Trail System — White & Green Petals ———
-      function addTrailPoint(x, y) {
-        // Main petal glow
-        cursorTrails.push({
-          x, y,
-          size: Math.random() * 8 + 6,
-          opacity: 1,
-          decay: 0.03 + Math.random() * 0.02,
-          rotation: Math.random() * Math.PI * 2,
-          rotSpeed: (Math.random() - 0.5) * 0.1,
-          isLeaf: Math.random() > 0.7
-        });
-        // Smaller sparkle dots
-        for (let i = 0; i < 2; i++) {
-          cursorTrails.push({
-            x: x + (Math.random() - 0.5) * 30,
-            y: y + (Math.random() - 0.5) * 30,
-            size: Math.random() * 3 + 1,
-            opacity: 0.8,
-            decay: 0.04 + Math.random() * 0.03,
-            rotation: Math.random() * Math.PI * 2,
-            rotSpeed: (Math.random() - 0.5) * 0.2,
-            isLeaf: false
-          });
-        }
-      }
-
-      function updateCursorTrail() {
-        tCtx.clearRect(0, 0, w, h);
-
-        for (let i = cursorTrails.length - 1; i >= 0; i--) {
-          const t = cursorTrails[i];
-          t.opacity -= t.decay;
-          t.rotation += t.rotSpeed;
-
-          if (t.opacity <= 0) {
-            cursorTrails.splice(i, 1);
-            continue;
-          }
-
-          tCtx.save();
-          tCtx.translate(t.x, t.y);
-          tCtx.rotate(t.rotation);
-          tCtx.globalAlpha = t.opacity;
-
-          if (t.size > 4) {
-            if (t.isLeaf) {
-              // Green leaf glow
-              const grad = tCtx.createRadialGradient(0, 0, 0, 0, 0, t.size);
-              grad.addColorStop(0, `rgba(120, 160, 100, ${t.opacity * 0.6})`);
-              grad.addColorStop(0.5, `rgba(140, 180, 120, ${t.opacity * 0.3})`);
-              grad.addColorStop(1, 'rgba(120, 160, 100, 0)');
-              tCtx.fillStyle = grad;
-              tCtx.beginPath();
-              tCtx.arc(0, 0, t.size, 0, Math.PI * 2);
-              tCtx.fill();
-              // Leaf shape
-              tCtx.fillStyle = `rgba(140, 180, 120, ${t.opacity * 0.5})`;
-              tCtx.beginPath();
-              const ls = t.size * 0.5;
-              tCtx.moveTo(0, -ls);
-              tCtx.quadraticCurveTo(ls * 0.6, -ls * 0.3, ls * 0.2, ls * 0.5);
-              tCtx.quadraticCurveTo(0, ls * 0.7, -ls * 0.2, ls * 0.5);
-              tCtx.quadraticCurveTo(-ls * 0.6, -ls * 0.3, 0, -ls);
-              tCtx.fill();
-            } else {
-              // White petal glow
-              const grad = tCtx.createRadialGradient(0, 0, 0, 0, 0, t.size);
-              grad.addColorStop(0, `rgba(255, 255, 255, ${t.opacity * 0.7})`);
-              grad.addColorStop(0.4, `rgba(240, 248, 240, ${t.opacity * 0.35})`);
-              grad.addColorStop(1, 'rgba(255, 255, 255, 0)');
-              tCtx.fillStyle = grad;
-              tCtx.beginPath();
-              tCtx.arc(0, 0, t.size, 0, Math.PI * 2);
-              tCtx.fill();
-              // Petal shape
-              tCtx.fillStyle = `rgba(255, 252, 248, ${t.opacity * 0.5})`;
-              tCtx.beginPath();
-              const s = t.size * 0.35;
-              tCtx.ellipse(0, -s * 0.5, s * 0.3, s, 0, 0, Math.PI * 2);
-              tCtx.fill();
-            }
-          } else {
-            // Small white/green sparkle dot
-            const sparkleColor = Math.random() > 0.5
-              ? `rgba(255, 255, 255, ${t.opacity * 0.8})`
-              : `rgba(180, 210, 170, ${t.opacity * 0.8})`;
-            tCtx.fillStyle = sparkleColor;
-            tCtx.beginPath();
-            tCtx.arc(0, 0, t.size, 0, Math.PI * 2);
-            tCtx.fill();
-          }
-
-          tCtx.restore();
-        }
-
-        trailRAF = requestAnimationFrame(updateCursorTrail);
-      }
-
-      // Scratch interaction
-      function startScratch(x, y) {
-        if (scratchComplete) return;
-
-        isScratching = true;
-        lastX = x;
-        lastY = y;
-        if (hint) hint.style.display = 'none';
-
-        // Unlock/play audio immediately on user starting to scratch
-        const bgMusic = document.getElementById('bg-music');
-        if (bgMusic && bgMusic.paused) {
-          bgMusic.volume = 0.5;
-          bgMusic.play()
-            .then(() => {
-              isAudioUnlocked = true;
-            })
-            .catch(e => console.log("Audio play deferred during startScratch:", e));
-        }
-      }
-
-      function doScratch(x, y) {
-        if (!isScratching || scratchComplete) return;
-
-        ctx.globalCompositeOperation = 'destination-out';
-
-        // Draw path between last and current position
-        const dx = x - lastX;
-        const dy = y - lastY;
-        const dist = Math.sqrt(dx * dx + dy * dy);
-        const steps = Math.max(1, Math.floor(dist / 4));
-
-        for (let i = 0; i <= steps; i++) {
-          const px = lastX + (dx * i) / steps;
-          const py = lastY + (dy * i) / steps;
-
-          const gradient = ctx.createRadialGradient(px, py, 0, px, py, BRUSH_SIZE);
-          gradient.addColorStop(0, 'rgba(0,0,0,1)');
-          gradient.addColorStop(0.5, 'rgba(0,0,0,0.8)');
-          gradient.addColorStop(1, 'rgba(0,0,0,0)');
-          ctx.fillStyle = gradient;
-          ctx.beginPath();
-          ctx.arc(px, py, BRUSH_SIZE, 0, Math.PI * 2);
-          ctx.fill();
-
-
-          // Check letter reveal at each step
-          checkLetterReveal(px, py);
-
-          // Add cursor trail
-          addTrailPoint(px, py);
-        }
-
-        ctx.globalCompositeOperation = 'source-over';
-
-        // Spawn particles
-        spawnParticles(x, y, 3);
-
-        lastX = x;
-        lastY = y;
-
-        // Check progress
-        checkProgress();
-      }
-
-      function endScratch() {
-        isScratching = false;
-
-        // Fallback: If scratch is complete but music isn't playing (due to gesture policy on move),
-        // try playing it on touch/mouse release which is a valid user gesture.
-        if (scratchComplete) {
-          const bgMusic = document.getElementById('bg-music');
-          if (bgMusic && bgMusic.paused) {
-            bgMusic.volume = 0.5;
-            bgMusic.play().catch(e => console.log("Audio play failed on endScratch:", e));
-          }
-        }
-      }
-
-      // Mouse events
-      canvas.addEventListener('mousedown', (e) => startScratch(e.clientX, e.clientY));
-      canvas.addEventListener('mousemove', (e) => doScratch(e.clientX, e.clientY));
-      canvas.addEventListener('mouseup', endScratch);
-      canvas.addEventListener('mouseleave', endScratch);
-
-      // Touch events
-      canvas.addEventListener('touchstart', (e) => {
-        e.preventDefault();
-        const t = e.touches[0];
-        startScratch(t.clientX, t.clientY);
-      }, { passive: false });
-
-      canvas.addEventListener('touchmove', (e) => {
-        e.preventDefault();
-        const t = e.touches[0];
-        doScratch(t.clientX, t.clientY);
-      }, { passive: false });
-
-      canvas.addEventListener('touchend', endScratch);
-
-      // Check scratch progress
-      let checkThrottle = 0;
-      function checkProgress() {
-        if (scratchComplete) return;
-        checkThrottle++;
-        if (checkThrottle % 15 !== 0) return;
-
-        // Ensure we check within bounds of the actual image
-        const startX = Math.max(0, Math.floor(drawX));
-        const startY = Math.max(0, Math.floor(drawY));
-        const checkWidth = Math.min(w - startX, Math.ceil(drawW));
-        const checkHeight = Math.min(h - startY, Math.ceil(drawH));
-        const imageData = ctx.getImageData(startX, startY, checkWidth, checkHeight);
-        const pixels = imageData.data;
-        let transparent = 0;
-        const total = checkWidth * checkHeight;
-        const step = 40;
-
-        for (let i = 3; i < pixels.length; i += 4 * step) {
-          if (pixels[i] === 0) transparent++;
-        }
-
-        const pct = transparent / (total / step);
-
-        if (pct > 0.15) {
-          completeReveal();
-        }
-      }
-
-      // Auto-complete the reveal
-      function completeReveal() {
-        scratchComplete = true;
-        content.classList.add('revealed');
-
-        // Hide the hint
-        if (hint) hint.style.display = 'none';
-
-        // Play background audio & show floating toggle button
-        const bgMusic = document.getElementById('bg-music');
-        const musicToggle = document.getElementById('music-toggle');
-        if (musicToggle) musicToggle.classList.add('visible');
-        if (bgMusic) {
-          bgMusic.volume = 0.5;
-          bgMusic.play().catch(e => console.log("Audio play failed on completeReveal:", e));
-        }
-
-        // Reveal all remaining letters with staggered animation
-        allLetters.forEach((letter, i) => {
-          setTimeout(() => {
-            if (!letter.classList.contains('revealed')) {
-              letter.classList.add('revealed');
-              // Sparkle burst on each newly revealed letter
-              const rect = letter.getBoundingClientRect();
-              spawnParticles(rect.left + rect.width / 2, rect.top + rect.height / 2, 3);
-            }
-          }, i * 40);
-        });
-
-        // Trigger a glint sweep across the letters
-        const glintStart = (allLetters.length * 40) + 300;
-        setTimeout(() => {
-          allLetters.forEach((letter, i) => {
-            setTimeout(() => {
-              letter.classList.add('glint-active');
-              const rect = letter.getBoundingClientRect();
-              spawnParticles(rect.left + rect.width / 2, rect.top + rect.height / 2, 2);
-            }, i * 35);
-          });
-        }, glintStart);
-
-        // Animate remaining scratch away
-        let opacity = 1;
-        function fadeCanvas() {
-          opacity -= 0.03;
-          if (opacity <= 0) {
-            canvas.style.display = 'none';
-            setTimeout(dissolveScratch, 1800);
-            return;
-          }
-          canvas.style.opacity = opacity;
-          requestAnimationFrame(fadeCanvas);
-        }
-        fadeCanvas();
-
-        // Burst of flower petals spreading outward
-        for (let i = 0; i < 50; i++) {
-          const angle = Math.random() * Math.PI * 2;
-          const dist = Math.random() * 150 + 30;
-          const speed = Math.random() * 3 + 1.5;
-          spawnParticles(
-            w / 2 + Math.cos(angle) * dist,
-            h / 2 + Math.sin(angle) * dist,
-            2
-          );
-        }
-      }
-
-      // Dissolve scratch reveal — flower petal burst transition
-      function dissolveScratch() {
-        const dissolveCount = isMobile ? 60 : 120;
-        for (let i = 0; i < dissolveCount; i++) {
-          const angle = Math.random() * Math.PI * 2;
-          const speed = Math.random() * 3 + 0.5;
-          const type = Math.random();
-          particles.push({
-            x: w / 2 + (Math.random() - 0.5) * w * 0.6,
-            y: h / 2 + (Math.random() - 0.5) * h * 0.6,
-            vx: Math.cos(angle) * speed,
-            vy: Math.sin(angle) * speed - Math.random() * 2,
-            size: Math.random() * 6 + 3,
-            opacity: Math.random() * 0.7 + 0.3,
-            rotation: Math.random() * Math.PI * 2,
-            rotSpeed: (Math.random() - 0.5) * 0.08,
-            life: 1,
-            decay: 0.006 + Math.random() * 0.006,
-            isPetal: type > 0.3,
-            isLeaf: type <= 0.3
-          });
-        }
-
-        container.classList.add('scratch-dissolve');
-
-        setTimeout(() => {
-          container.classList.add('hidden');
-          cancelAnimationFrame(particleRAF);
-          cancelAnimationFrame(trailRAF);
-          enterMainPage();
-
-          // Completely remove from DOM flow after transition
-          setTimeout(() => {
-            container.style.display = 'none';
-          }, 1500);
-        }, 1000);
-      }
-
-      // Particle system — White & Green Flower Petals
-      function spawnParticles(x, y, count) {
-        for (let i = 0; i < count; i++) {
-          const type = Math.random();
-          particles.push({
-            x: x + (Math.random() - 0.5) * 20,
-            y: y + (Math.random() - 0.5) * 20,
-            vx: (Math.random() - 0.5) * 4,
-            vy: (Math.random() - 0.5) * 4 - 1,
-            size: Math.random() * 4 + 2,
-            opacity: Math.random() * 0.6 + 0.4,
-            rotation: Math.random() * Math.PI * 2,
-            rotSpeed: (Math.random() - 0.5) * 0.12,
-            life: 1,
-            decay: 0.012 + Math.random() * 0.012,
-            isPetal: type > 0.35,
-            isLeaf: type <= 0.35
-          });
-        }
-      }
-
-      // Draw a 5-petal flower shape
-      function drawFlowerPetal(ctx, size) {
-        const petalCount = 5;
-        for (let i = 0; i < petalCount; i++) {
-          ctx.save();
-          ctx.rotate((i * Math.PI * 2) / petalCount);
-          ctx.beginPath();
-          ctx.moveTo(0, 0);
-          ctx.quadraticCurveTo(size * 0.5, -size * 0.6, 0, -size);
-          ctx.quadraticCurveTo(-size * 0.5, -size * 0.6, 0, 0);
-          ctx.fill();
-          ctx.restore();
-        }
-        // Center dot
-        ctx.beginPath();
-        ctx.arc(0, 0, size * 0.15, 0, Math.PI * 2);
-        ctx.fillStyle = 'rgba(200, 220, 180, 0.9)';
-        ctx.fill();
-      }
-
-      // Draw a leaf shape
-      function drawLeaf(ctx, size) {
-        ctx.beginPath();
-        ctx.moveTo(0, -size);
-        ctx.quadraticCurveTo(size * 0.55, -size * 0.35, size * 0.15, size * 0.4);
-        ctx.quadraticCurveTo(0, size * 0.6, -size * 0.15, size * 0.4);
-        ctx.quadraticCurveTo(-size * 0.55, -size * 0.35, 0, -size);
-        ctx.fill();
-        // Leaf vein
-        ctx.strokeStyle = `rgba(100, 140, 80, 0.3)`;
-        ctx.lineWidth = 0.5;
-        ctx.beginPath();
-        ctx.moveTo(0, -size * 0.8);
-        ctx.lineTo(0, size * 0.4);
-        ctx.stroke();
-      }
-
-      function updateParticles() {
-        pCtx.clearRect(0, 0, w, h);
-
-        for (let i = particles.length - 1; i >= 0; i--) {
-          const p = particles[i];
-          p.x += p.vx;
-          p.y += p.vy;
-          p.vy += 0.015;
-          p.vx *= 0.998;
-          p.rotation += p.rotSpeed;
-          p.life -= p.decay;
-
-          if (p.life <= 0) {
-            particles.splice(i, 1);
-            continue;
-          }
-
-          pCtx.save();
-          pCtx.translate(p.x, p.y);
-          pCtx.rotate(p.rotation);
-          pCtx.globalAlpha = p.life * p.opacity;
-
-          if (p.isLeaf) {
-            // Green leaf
-            const g = Math.floor(140 + Math.random() * 40);
-            pCtx.fillStyle = `rgba(100, ${g}, 80, ${p.life * 0.85})`;
-            drawLeaf(pCtx, p.size);
-          } else if (p.isPetal) {
-            // White flower petal
-            pCtx.fillStyle = `rgba(255, 253, 250, ${p.life * 0.8})`;
-            drawFlowerPetal(pCtx, p.size);
-          } else {
-            // Small sparkle dot — white or pale green
-            const isGreen = Math.random() > 0.5;
-            const gradient = pCtx.createRadialGradient(0, 0, 0, 0, 0, p.size);
-            if (isGreen) {
-              gradient.addColorStop(0, `rgba(170, 210, 150, 1)`);
-              gradient.addColorStop(1, `rgba(140, 180, 120, 0)`);
-            } else {
-              gradient.addColorStop(0, `rgba(255, 255, 255, 1)`);
-              gradient.addColorStop(1, `rgba(255, 255, 255, 0)`);
-            }
-            pCtx.fillStyle = gradient;
-            pCtx.beginPath();
-            pCtx.arc(0, 0, p.size, 0, Math.PI * 2);
-            pCtx.fill();
-          }
-
-          pCtx.restore();
-        }
-
-        particleRAF = requestAnimationFrame(updateParticles);
-      }
-
-      // Initialize
-      loadScratchImage();
-      resize();
-      updateParticles();
-      updateCursorTrail();
-
-      window.addEventListener('resize', () => {
-        if (!scratchComplete) resize();
-      }, { passive: true });
-    }
 
     /* ================================================================
        ENTER MAIN INVITATION
@@ -3784,7 +2988,7 @@
        COUNTDOWN
     ================================================================ */
     function tickCountdown() {
-      const target = new Date('2027-07-08T16:00:00+05:30');
+      const target = new Date('2026-10-16T00:00:00+05:30');
       const now = new Date();
       let diff = Math.max(0, target - now);
 
