@@ -83,7 +83,7 @@
       z-index: 10000;
       overflow: hidden;
       background: #4d101c;
-      transition: opacity 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+      transition: opacity 0.45s ease-out;
     }
 
     #envelope-cover-screen.is-leaving {
@@ -111,8 +111,8 @@
     }
 
     #envelope-cover-screen.is-leaving .env-stage {
-      transform: translate(-50%, -50%) scale(1.06);
-      transition: opacity 1s ease, transform 1.4s cubic-bezier(0.4, 0, 0.2, 1);
+      transform: translate(-50%, -50%) scale(1.03);
+      transition: opacity 0.45s ease-out, transform 0.45s ease-out;
     }
 
     .env-layer {
@@ -143,6 +143,37 @@
       transform-origin: 50% 0%;
       opacity: 0;
       will-change: transform, opacity, filter;
+    }
+
+    /* Minimal gold note — sits directly on the envelope paper, just below the seal.
+       No card, no background block: only the lettering itself. */
+    .env-letter {
+      position: absolute;
+      left: 50%;
+      top: 58%;
+      width: 80%;
+      text-align: center;
+      transform: translate(-50%, 0);
+      pointer-events: none;
+    }
+
+    .env-letter-text {
+      display: inline-block;
+      font-family: 'Cinzel', serif;
+      font-size: clamp(0.62rem, 2.4vw, 0.86rem);
+      letter-spacing: 0.4em;
+      text-transform: uppercase;
+      color: #f6dfa0;
+      text-shadow: 0 1px 3px rgba(10, 1, 3, 0.55), 0 0 22px rgba(246, 223, 160, 0.5), 0 0 4px rgba(255, 244, 214, 0.6);
+      background: linear-gradient(115deg, #e9c877 10%, #fff2cf 50%, #e9c877 90%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      white-space: nowrap;
+      padding: 0 0.4em;
+      opacity: 0;
+      transform: translateY(8px);
+      will-change: transform, opacity;
     }
 
     /* Hero Section Islamic Additions */
@@ -2488,6 +2519,7 @@
   <div id="envelope-cover-screen" aria-hidden="true">
     <div class="env-stage">
       <div class="env-layer env-body"></div>
+      <div class="env-letter"><span class="env-letter-text">You are invited</span></div>
       <div class="env-layer env-flap-shadow"></div>
       <div class="env-layer env-flap"></div>
     </div>
@@ -2905,15 +2937,23 @@
       if (!cover) return;
       const flap = cover.querySelector('.env-flap');
       const flapShadow = cover.querySelector('.env-flap-shadow');
+      const letterText = cover.querySelector('.env-letter-text');
       const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
       const wait = ms => new Promise(r => setTimeout(r, ms));
       // runs on the animation timeline, so a background tab can't skip ahead of the visuals
       const beat = ms => cover.animate([], { duration: ms }).finished;
       const preload = src => new Promise(r => { const img = new Image(); img.onload = img.onerror = r; img.src = src; });
 
-      const HOLD = reduceMotion ? 400 : 1600;
-      const OPEN = reduceMotion ? 700 : 2100;
-      const EASE = 'cubic-bezier(0.5, 0, 0.3, 1)';
+      // Slow, deliberate motion — the flap takes its time lifting clear before the gold note fades in
+      const HOLD = reduceMotion ? 400 : 1900;
+      const OPEN = reduceMotion ? 900 : 3600;
+      const EASE = 'cubic-bezier(0.62, 0, 0.18, 1)';
+      // The flap only lifts 80% of the way open — never fully clears the envelope — then the
+      // cover cuts straight to a fade the instant it gets there. FULL_OPEN is the angle a
+      // complete lift would use (past vertical, so it would eventually slip out of sight);
+      // TARGET_OPEN stops at 80% of that.
+      const FULL_OPEN = 104;
+      const TARGET_OPEN = FULL_OPEN * 0.8;
 
       Promise.race([
         Promise.all([preload('assets/envelope-body.jpg'), preload('assets/envelope-flap.png')]),
@@ -2921,27 +2961,35 @@
       ]).then(async () => {
         await new Promise(r => requestAnimationFrame(() => requestAnimationFrame(r)));
         cover.classList.add('is-ready');
+
+        // the gold note is there from the start, on the still-closed envelope — it simply
+        // glows softly into view first, before the flap ever begins to lift
+        letterText.animate([
+          { opacity: 0, transform: 'translateY(8px)', filter: 'blur(3px)' },
+          { opacity: 1, transform: 'translateY(0)', filter: 'blur(0)' }
+        ], { duration: reduceMotion ? 300 : 1100, delay: reduceMotion ? 100 : 450, easing: 'ease-out', fill: 'forwards' });
+
         await beat(HOLD);
 
-        // lifts toward the viewer and just past vertical, where it slips out over the top edge
+        // lifts toward the viewer but stops at 80% open — it never fully clears the envelope
         flap.animate([
           { transform: 'rotateX(0deg)' },
-          { transform: 'rotateX(104deg)' }
+          { transform: `rotateX(${TARGET_OPEN}deg)` }
         ], { duration: OPEN, easing: EASE, fill: 'forwards' });
 
-        // shadow follows the flap's angle: shortens, drifts down, softens, then disappears near vertical
+        // shadow follows the flap's angle: shortens and drifts down as it lifts, matching the same 80% stop
         flapShadow.animate([
           { transform: 'translateY(0) scaleY(1)', opacity: 0, filter: 'blur(2px)' },
           { transform: 'translateY(1.2%) scaleY(0.88)', opacity: 0.4, filter: 'blur(6px)', offset: 0.28 },
-          { transform: 'translateY(2.6%) scaleY(0.5)', opacity: 0.24, filter: 'blur(14px)', offset: 0.58 },
-          { transform: 'translateY(3.2%) scaleY(0.12)', opacity: 0, filter: 'blur(20px)', offset: 0.84 },
-          { transform: 'translateY(3.2%) scaleY(0.12)', opacity: 0, filter: 'blur(20px)' }
+          { transform: 'translateY(2.2%) scaleY(0.58)', opacity: 0.3, filter: 'blur(12px)', offset: 0.58 },
+          { transform: 'translateY(2.8%) scaleY(0.32)', opacity: 0.2, filter: 'blur(16px)' }
         ], { duration: OPEN, easing: EASE, fill: 'forwards' });
 
-        await beat(OPEN * 0.86);
+        // the instant the flap reaches 80% open, cut straight to the fade — sudden, no lingering
+        await beat(OPEN);
         cover.classList.add('is-leaving');
         enterMainPage();
-        await beat(1300);
+        await beat(550);
         cover.remove();
       });
     })();
@@ -2966,7 +3014,7 @@
 
       document.body.classList.remove('no-scroll');
       requestAnimationFrame(() => {
-        main.style.transition = 'opacity .8s ease';
+        main.style.transition = 'opacity .55s ease-out';
         main.style.opacity = '1';
       });
 
