@@ -2105,101 +2105,6 @@
 
 
 
-    /* Floating Music Toggle Button */
-    .music-toggle-btn {
-      position: fixed;
-      bottom: 24px;
-      right: 24px;
-      width: 48px;
-      height: 48px;
-      border-radius: 50%;
-      background: rgba(48, 98, 58, 0.45); /* var(--dark) with opacity */
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      border: 1px solid rgba(212, 175, 55, 0.35); /* var(--gold) with opacity */
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      z-index: 9999;
-      opacity: 0;
-      visibility: hidden;
-      transform: scale(0.8);
-      transition: opacity 0.8s ease, transform 0.8s ease, visibility 0.8s;
-      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2), 0 0 10px rgba(212, 175, 55, 0.15);
-    }
-
-    .music-toggle-btn.visible {
-      opacity: 1;
-      visibility: visible;
-      transform: scale(1);
-    }
-
-    .music-toggle-btn:hover {
-      transform: scale(1.08);
-      border-color: var(--gold-hi);
-      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3), 0 0 15px rgba(212, 175, 55, 0.3);
-    }
-
-    .music-toggle-btn:active {
-      transform: scale(0.95);
-    }
-
-    .music-icon-wrapper {
-      position: relative;
-      width: 22px;
-      height: 22px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    /* Animated sound waves */
-    .sound-wave {
-      display: flex;
-      align-items: flex-end;
-      justify-content: space-between;
-      width: 18px;
-      height: 14px;
-    }
-
-    .sound-wave span {
-      width: 3px;
-      height: 100%;
-      background-color: var(--gold);
-      border-radius: 1px;
-      transform-origin: bottom;
-      animation: bounceWave 1.2s ease-in-out infinite alternate;
-    }
-
-    .sound-wave span:nth-child(1) { animation-delay: 0.1s; height: 30%; }
-    .sound-wave span:nth-child(2) { animation-delay: 0.3s; height: 100%; }
-    .sound-wave span:nth-child(3) { animation-delay: 0s;   height: 60%; }
-    .sound-wave span:nth-child(4) { animation-delay: 0.2s; height: 80%; }
-
-    .music-toggle-btn.paused .sound-wave span {
-      animation-play-state: paused;
-      height: 25% !important;
-      background-color: var(--gold-lo);
-    }
-
-    .music-toggle-btn.paused.visible {
-      animation: musicPulse 2s infinite ease-in-out;
-    }
-
-    @keyframes musicPulse {
-      0%, 100% { box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2), 0 0 8px rgba(212, 175, 55, 0.2); }
-      50% { box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3), 0 0 22px rgba(212, 175, 55, 0.7); }
-    }
-
-    @keyframes bounceWave {
-      0% {
-        transform: scaleY(0.2);
-      }
-      100% {
-        transform: scaleY(1);
-      }
-    }
 
     /* ================================================================
        BURGUNDY & GOLD THEME — matches the envelope cover
@@ -2465,7 +2370,7 @@
       background: radial-gradient(circle, rgba(210, 174, 104, 0.22) 0%, transparent 70%);
     }
 
-    /* ——— FOOTER & MUSIC ——— */
+    /* ——— FOOTER ——— */
     #site-footer {
       background:
         radial-gradient(ellipse 70% 100% at 50% 0%, rgba(210, 174, 104, 0.07) 0%, transparent 65%),
@@ -2475,11 +2380,6 @@
 
     .footer-credit {
       color: rgba(244, 231, 211, 0.55);
-    }
-
-    .music-toggle-btn {
-      background: rgba(74, 15, 30, 0.7);
-      border-color: rgba(210, 174, 104, 0.55);
     }
 
     @media (max-width: 900px) {
@@ -2903,29 +2803,17 @@
     </div>
   </footer>
 
-  <!-- Floating Music Toggle -->
-  <button id="music-toggle" class="music-toggle-btn" aria-label="Toggle Background Music">
-    <div class="music-icon-wrapper">
-      <div class="sound-wave">
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-      </div>
-    </div>
-  </button>
-
   <!-- Audio Element (Hidden) -->
   <audio id="bg-music" src="assets/bg-music.mp3" loop playsinline webkit-playsinline preload="auto" autoplay></audio>
 
   <script>
     /* ================================================================
-       GLOBAL AUDIO ENGINE FOR IOS & ANDROID (DEFAULT AUTOPLAY)
+       GLOBAL AUDIO ENGINE FOR IOS & ANDROID (DEFAULT AUTOPLAY, NO TOGGLE)
+       There is no pause control — the music always plays. Browsers still
+       require a user gesture before unmuted audio can start, so this tries
+       to play immediately and again on the very first tap/scroll/key press,
+       which is the earliest point any platform allows.
     ================================================================ */
-    let userManuallyPaused = false;
-    let isAudioUnlocked = false;
-
-    // Web Audio API unlock for iOS Safari
     function unlockWebAudioPipeline() {
       try {
         const AudioContext = window.AudioContext || window.webkitAudioContext;
@@ -2946,9 +2834,7 @@
     }
 
     function playWeddingMusic() {
-      if (userManuallyPaused) return Promise.resolve(false);
       const bgMusic = document.getElementById('bg-music');
-      const musicToggle = document.getElementById('music-toggle');
       if (!bgMusic) return Promise.resolve(false);
 
       bgMusic.muted = false;
@@ -2956,14 +2842,7 @@
 
       const playPromise = bgMusic.play();
       if (playPromise !== undefined) {
-        return playPromise.then(() => {
-          isAudioUnlocked = true;
-          if (musicToggle) {
-            musicToggle.classList.add('visible');
-            musicToggle.classList.remove('paused');
-          }
-          return true;
-        }).catch((err) => {
+        return playPromise.then(() => true).catch(() => {
           // Awaiting user gesture on iOS / Android
           return false;
         });
@@ -2971,10 +2850,7 @@
       return Promise.resolve(true);
     }
 
-    function handleFirstUserGesture(e) {
-      if (userManuallyPaused) return;
-      if (e && e.target && e.target.closest && e.target.closest('#music-toggle')) return;
-
+    function handleFirstUserGesture() {
       unlockWebAudioPipeline();
       playWeddingMusic();
     }
@@ -2987,43 +2863,8 @@
     window.addEventListener('scroll', handleFirstUserGesture, { capture: true, passive: true });
 
     // Attempt autoplay immediately on load
-    document.addEventListener('DOMContentLoaded', () => {
-      playWeddingMusic();
-
-      const musicToggle = document.getElementById('music-toggle');
-      const bgMusic = document.getElementById('bg-music');
-
-      if (musicToggle && bgMusic) {
-        musicToggle.addEventListener('click', (e) => {
-          e.stopPropagation();
-          unlockWebAudioPipeline();
-
-          if (bgMusic.paused) {
-            userManuallyPaused = false;
-            bgMusic.volume = 0.55;
-            bgMusic.play().then(() => {
-              musicToggle.classList.remove('paused');
-            }).catch(err => console.log("Play failed on toggle:", err));
-          } else {
-            userManuallyPaused = true;
-            bgMusic.pause();
-            musicToggle.classList.add('paused');
-          }
-        });
-
-        bgMusic.addEventListener('play', () => {
-          musicToggle.classList.remove('paused');
-        });
-        bgMusic.addEventListener('pause', () => {
-          if (userManuallyPaused) {
-            musicToggle.classList.add('paused');
-          }
-        });
-      }
-    });
-    window.addEventListener('load', () => {
-      playWeddingMusic();
-    });
+    document.addEventListener('DOMContentLoaded', playWeddingMusic);
+    window.addEventListener('load', playWeddingMusic);
 
     /* ================================================================
        ENVELOPE COVER — opens on tap or auto-opens; triggers song
@@ -3126,8 +2967,6 @@
       main.style.display = 'block';
 
       // Start music on bride and groom page
-      const musicToggle = document.getElementById('music-toggle');
-      if (musicToggle) musicToggle.classList.add('visible');
       playWeddingMusic();
 
       document.body.classList.remove('no-scroll');
