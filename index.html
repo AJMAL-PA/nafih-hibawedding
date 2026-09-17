@@ -1601,10 +1601,92 @@
       }
     }
 
-    /* ========== BLESSINGS SECTION ========== */
+    /* ========== BEST WISHES SECTION (MINIMALIST LUXURY) ========== */
     #sec-blessings {
       background: transparent;
       text-align: center;
+      padding: 4.5rem 1.5rem;
+    }
+
+    .wishes-minimal {
+      max-width: 750px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .wishes-sub {
+      font-family: 'Cinzel', serif;
+      font-size: 0.72rem;
+      letter-spacing: 0.38em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 0.9rem;
+      display: block;
+      font-weight: 400;
+    }
+
+    .wishes-title {
+      font-family: 'Cinzel', serif;
+      font-size: clamp(1.55rem, 4vw, 2.3rem);
+      font-weight: 400;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--cream);
+      margin: 0 0 2.2rem;
+      line-height: 1.25;
+    }
+
+    .wishes-line {
+      width: 140px;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(210, 174, 104, 0.75), transparent);
+      margin: 0 auto;
+    }
+
+    .wishes-names {
+      text-align: center;
+      margin: 2.4rem auto;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(1.45rem, 3.8vw, 2.05rem);
+      color: var(--cream);
+      font-weight: 300;
+      line-height: 1.85;
+      max-width: 620px;
+    }
+
+    .wish-name {
+      display: inline;
+      padding: 0 0.35rem;
+      letter-spacing: 0.04em;
+    }
+
+    .wish-dot {
+      display: inline;
+      color: var(--gold);
+      font-size: 0.8em;
+      margin: 0 0.85rem;
+      vertical-align: middle;
+      opacity: 0.85;
+    }
+
+    @media (max-width: 600px) {
+      #sec-blessings {
+        padding: 3.5rem 1rem;
+      }
+      .wishes-title {
+        margin-bottom: 1.8rem;
+      }
+      .wishes-names {
+        margin: 1.8rem auto;
+        font-size: 1.45rem;
+        line-height: 1.7;
+      }
+      .wish-dot {
+        margin: 0 0.5rem;
+      }
+      .wishes-line {
+        width: 100px;
+      }
     }
 
     .blessings-grid {
@@ -2570,9 +2652,9 @@
 
             <div class="family-member">
               <div class="family-label">Parents</div>
-              <div class="family-name">Fathima Mohammed Sajid</div>
+              <div class="family-name">Late. Mohammed Sajid</div>
               <div style="font-size: 1.1rem; color: var(--gold); margin: 0.2rem 0;">&amp;</div>
-              <div class="family-name">Mohammed Sajid</div>
+              <div class="family-name">Fathima Mohammed Sajid</div>
             </div>
           </div>
         </div>
@@ -2721,36 +2803,26 @@
 
 
 
-    <!-- ——— BLESSINGS & WISHES ——— -->
+    <!-- ——— BEST WISHES ——— -->
     <div class="sec-wrap" id="sec-blessings">
-      <div class="sec-inner reveal">
-        <span class="sec-label">Words of Love</span>
-        <h2 class="sec-heading">Blessings & Wishes</h2>
+      <div class="sec-inner reveal" style="text-align:center;">
+        <div class="wishes-minimal">
+          <span class="wishes-sub">WITH LOVE</span>
+          <h2 class="wishes-title">BEST WISHES FROM</h2>
 
-        <div class="blessings-grid">
-          <div class="blessing-card">
-            <div class="blessing-quote">"</div>
-            <div class="blessing-text">May Allah bless this union with love, mercy, and tranquillity. May your home be
-              filled with the light of faith and the warmth of togetherness.</div>
-            <div class="blessing-author">— With Love</div>
+          <div class="wishes-line"></div>
+
+          <div class="wishes-names">
+            <span class="wish-name">Fathah</span>
+            <span class="wish-dot">•</span>
+            <span class="wish-name">Nisa</span>
+            <span class="wish-dot">•</span>
+            <span class="wish-name">Saliha</span>
+            <span class="wish-dot">•</span>
+            <span class="wish-name">Ashif</span>
           </div>
 
-          <div class="blessing-card">
-            <div class="blessing-quote">"</div>
-            <div class="blessing-text">بَارَكَ اللَّهُ لَكُمَا وَبَارَكَ عَلَيْكُمَا وَجَمَعَ بَيْنَكُمَا فِي
-              خَيْرٍ<br><em style="font-size:0.85em;color:rgba(44,37,24,0.5);">May Allah bless you both and shower His
-                blessings upon you and bring you together in goodness.</em></div>
-            <div class="blessing-author">— Prophetic Dua</div>
-          </div>
-
-          <div class="blessing-card">
-            <div class="blessing-quote">"</div>
-            <div class="blessing-text">A beautiful journey begins today. May every step you take together be guided by
-              His mercy. Wishing you a lifetime of happiness and barakah.</div>
-            <div class="blessing-author">— Family & Friends</div>
-          </div>
-
-
+          <div class="wishes-line"></div>
         </div>
       </div>
     </div>
@@ -2804,16 +2876,16 @@
   </footer>
 
   <!-- Audio Element (Hidden) -->
-  <audio id="bg-music" src="assets/bg-music.mp3" loop playsinline webkit-playsinline preload="auto" autoplay></audio>
+  <audio id="bg-music" src="assets/bg-music.mp3" loop playsinline webkit-playsinline x-webkit-airplay="allow" preload="auto"></audio>
 
   <script>
     /* ================================================================
        GLOBAL AUDIO ENGINE FOR IOS & ANDROID (DEFAULT AUTOPLAY, NO TOGGLE)
-       There is no pause control — the music always plays. Browsers still
-       require a user gesture before unmuted audio can start, so this tries
-       to play immediately and again on the very first tap/scroll/key press,
-       which is the earliest point any platform allows.
+       Ensures background music plays reliably by default across iOS Safari
+       and Android Chrome via Web Audio unlocking and multi-touch event triggers.
     ================================================================ */
+    let isAudioStarted = false;
+
     function unlockWebAudioPipeline() {
       try {
         const AudioContext = window.AudioContext || window.webkitAudioContext;
@@ -2837,12 +2909,19 @@
       const bgMusic = document.getElementById('bg-music');
       if (!bgMusic) return Promise.resolve(false);
 
+      if (isAudioStarted && !bgMusic.paused) {
+        return Promise.resolve(true);
+      }
+
       bgMusic.muted = false;
       bgMusic.volume = 0.55;
 
       const playPromise = bgMusic.play();
       if (playPromise !== undefined) {
-        return playPromise.then(() => true).catch(() => {
+        return playPromise.then(() => {
+          isAudioStarted = true;
+          return true;
+        }).catch((err) => {
           // Awaiting user gesture on iOS / Android
           return false;
         });
@@ -2855,16 +2934,33 @@
       playWeddingMusic();
     }
 
-    // Attach listeners across all touch/pointer/click/scroll events
-    ['pointerdown', 'touchstart', 'touchend', 'click', 'keydown'].forEach(evt => {
-      window.addEventListener(evt, handleFirstUserGesture, { capture: true });
-      document.addEventListener(evt, handleFirstUserGesture, { capture: true });
+    // Attach listeners across all touch/pointer/click/scroll events for iOS & Android
+    const userInteractionEvents = ['touchstart', 'touchend', 'pointerdown', 'pointerup', 'click', 'keydown'];
+    userInteractionEvents.forEach(evt => {
+      window.addEventListener(evt, handleFirstUserGesture, { capture: true, passive: true });
+      document.addEventListener(evt, handleFirstUserGesture, { capture: true, passive: true });
     });
     window.addEventListener('scroll', handleFirstUserGesture, { capture: true, passive: true });
 
     // Attempt autoplay immediately on load
-    document.addEventListener('DOMContentLoaded', playWeddingMusic);
-    window.addEventListener('load', playWeddingMusic);
+    document.addEventListener('DOMContentLoaded', () => {
+      unlockWebAudioPipeline();
+      playWeddingMusic();
+    });
+    window.addEventListener('load', () => {
+      unlockWebAudioPipeline();
+      playWeddingMusic();
+    });
+
+    // Auto-resume if tab becomes visible again
+    document.addEventListener('visibilitychange', () => {
+      if (!document.hidden && isAudioStarted) {
+        const bgMusic = document.getElementById('bg-music');
+        if (bgMusic && bgMusic.paused) {
+          bgMusic.play().catch(() => {});
+        }
+      }
+    });
 
     /* ================================================================
        ENVELOPE COVER — opens on tap or auto-opens; triggers song
@@ -2927,13 +3023,11 @@
       }
 
       // Tap / touch anywhere on the cover immediately unlocks audio & opens envelope!
-      cover.addEventListener('pointerdown', (e) => {
-        handleFirstUserGesture(e);
-        triggerEnvelopeOpening();
-      });
-      cover.addEventListener('click', (e) => {
-        handleFirstUserGesture(e);
-        triggerEnvelopeOpening();
+      ['touchstart', 'touchend', 'pointerdown', 'click'].forEach(evt => {
+        cover.addEventListener(evt, (e) => {
+          handleFirstUserGesture();
+          triggerEnvelopeOpening();
+        }, { passive: true });
       });
 
       Promise.race([
