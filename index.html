@@ -210,6 +210,45 @@
       will-change: transform, opacity;
     }
 
+    .env-tap-open-btn {
+      position: absolute;
+      left: 50%;
+      bottom: 9%;
+      transform: translateX(-50%) translateY(10px);
+      z-index: 5;
+      font-family: 'Cinzel', serif;
+      font-size: clamp(0.6rem, 2vw, 0.74rem);
+      letter-spacing: 0.32em;
+      text-transform: uppercase;
+      color: #2a1710;
+      background: linear-gradient(115deg, #e9c877 10%, #fff2cf 50%, #e9c877 90%);
+      border: 1px solid rgba(246, 223, 160, 0.8);
+      border-radius: 999px;
+      padding: 0.85em 1.8em;
+      cursor: pointer;
+      opacity: 0;
+      pointer-events: none;
+      box-shadow: 0 4px 22px rgba(0, 0, 0, 0.35), 0 0 0 rgba(246, 223, 160, 0.5);
+      transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+      animation: envTapPulse 2.2s ease-in-out infinite;
+    }
+
+    #envelope-cover-screen.is-ready .env-tap-open-btn {
+      opacity: 1;
+      pointer-events: auto;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    #envelope-cover-screen.is-leaving .env-tap-open-btn {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    @keyframes envTapPulse {
+      0%, 100% { box-shadow: 0 4px 22px rgba(0, 0, 0, 0.35), 0 0 0 rgba(246, 223, 160, 0.45); }
+      50% { box-shadow: 0 4px 22px rgba(0, 0, 0, 0.35), 0 0 14px rgba(246, 223, 160, 0.75); }
+    }
+
     /* Hero Section Islamic Additions */
     .hero-bismillah {
       font-family: 'Amiri', serif;
@@ -2551,6 +2590,7 @@
         <div class="env-layer env-flap-back"></div>
       </div>
     </div>
+    <button type="button" id="env-tap-open-btn" class="env-tap-open-btn">Tap to Open</button>
   </div>
 
   <div id="heavenly-bg-container">
@@ -2999,7 +3039,9 @@
     });
 
     /* ================================================================
-       ENVELOPE COVER — opens on tap or auto-opens; triggers song
+       ENVELOPE COVER — opens only on the "Tap to Open" button; the song
+       starts right on that tap (real user gesture) but stays muted until
+       the cover has finished opening, then reveals with sound.
     ================================================================ */
     (function () {
       const cover = document.getElementById('envelope-cover-screen');
@@ -3007,26 +3049,26 @@
       const flap = cover.querySelector('.env-flap-wrap');
       const flapShadow = cover.querySelector('.env-flap-shadow-wrap');
       const letterText = cover.querySelector('.env-letter-text');
+      const openBtn = cover.querySelector('#env-tap-open-btn');
       const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
       const wait = ms => new Promise(r => setTimeout(r, ms));
       const preload = src => new Promise(r => { const img = new Image(); img.onload = img.onerror = r; img.src = src; });
 
-      const HOLD = reduceMotion ? 400 : 1200;
       const OPEN = reduceMotion ? 700 : 2200;
       const EASE = 'cubic-bezier(0.65, 0, 0.35, 1)';
       const TARGET_OPEN = 168;
 
       let hasFlapStarted = false;
-      let autoTimer = null;
 
       function triggerEnvelopeOpening() {
         if (hasFlapStarted) return;
         hasFlapStarted = true;
-        if (autoTimer) clearTimeout(autoTimer);
 
-        // Directly unlock and play audio in the gesture or transition
+        // Claim the user gesture immediately (muted) so the song is
+        // primed and ready — it's revealed with sound once the cover
+        // has finished opening, in enterMainPage().
         unlockWebAudioPipeline();
-        revealWeddingMusic();
+        startMutedAutoplay();
 
         // Lift and swing the flap open
         flap.animate([
@@ -3058,8 +3100,9 @@
         }, OPEN * 0.78);
       }
 
-      // Tap / touch anywhere on the cover immediately unlocks audio & opens envelope!
-      ['touchstart', 'touchend', 'pointerdown', 'click'].forEach(evt => {
+      // Tapping anywhere on the cover opens the envelope — the button is
+      // just a visible hint, not the only hit target.
+      ['touchend', 'click'].forEach(evt => {
         cover.addEventListener(evt, (e) => {
           handleFirstUserGesture();
           triggerEnvelopeOpening();
@@ -3079,11 +3122,6 @@
             { opacity: 1, transform: 'translateY(0)', filter: 'blur(0)' }
           ], { duration: reduceMotion ? 300 : 600, delay: reduceMotion ? 100 : 150, easing: 'ease-out', fill: 'forwards' });
         }
-
-        // Auto-open after HOLD if user hasn't tapped yet
-        autoTimer = setTimeout(() => {
-          triggerEnvelopeOpening();
-        }, HOLD);
       });
     })();
 
