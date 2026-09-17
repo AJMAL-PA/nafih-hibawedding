@@ -2909,7 +2909,7 @@
       const bgMusic = document.getElementById('bg-music');
       if (!bgMusic) return Promise.resolve(false);
 
-      if (isAudioStarted && !bgMusic.paused) {
+      if (isAudioStarted && !bgMusic.paused && !bgMusic.muted) {
         return Promise.resolve(true);
       }
 
@@ -2922,11 +2922,45 @@
           isAudioStarted = true;
           return true;
         }).catch((err) => {
-          // Awaiting user gesture on iOS / Android
-          return false;
+          // Autoplay-with-sound blocked (no gesture yet) — fall back to
+          // muted autoplay so it's ready to unmute the instant we can.
+          return startMutedAutoplay();
         });
       }
       return Promise.resolve(true);
+    }
+
+    // Muted autoplay is allowed by every browser with no gesture required.
+    // Starting the track muted (and keeping it running) lets us reveal the
+    // sound later with a plain `muted = false`, which is NOT gated behind a
+    // user gesture the way a fresh `.play()` call is.
+    function startMutedAutoplay() {
+      const bgMusic = document.getElementById('bg-music');
+      if (!bgMusic) return Promise.resolve(false);
+      if (!bgMusic.paused) return Promise.resolve(true);
+
+      bgMusic.muted = true;
+      bgMusic.volume = 0.55;
+      const p = bgMusic.play();
+      if (p !== undefined) {
+        return p.then(() => true).catch(() => false);
+      }
+      return Promise.resolve(true);
+    }
+
+    // Reveal the already-playing (possibly muted) track. No new `.play()`
+    // call is made here, so it works even without a user gesture.
+    function revealWeddingMusic() {
+      const bgMusic = document.getElementById('bg-music');
+      if (!bgMusic) return;
+
+      if (bgMusic.paused) {
+        playWeddingMusic();
+        return;
+      }
+      bgMusic.muted = false;
+      bgMusic.volume = 0.55;
+      isAudioStarted = true;
     }
 
     function handleFirstUserGesture() {
@@ -2942,14 +2976,16 @@
     });
     window.addEventListener('scroll', handleFirstUserGesture, { capture: true, passive: true });
 
-    // Attempt autoplay immediately on load
+    // Attempt autoplay immediately on load (muted fallback keeps the track
+    // primed and running so it can be revealed with sound the moment the
+    // name section appears, with no click required).
     document.addEventListener('DOMContentLoaded', () => {
       unlockWebAudioPipeline();
-      playWeddingMusic();
+      startMutedAutoplay();
     });
     window.addEventListener('load', () => {
       unlockWebAudioPipeline();
-      playWeddingMusic();
+      startMutedAutoplay();
     });
 
     // Auto-resume if tab becomes visible again
@@ -2990,7 +3026,7 @@
 
         // Directly unlock and play audio in the gesture or transition
         unlockWebAudioPipeline();
-        playWeddingMusic();
+        revealWeddingMusic();
 
         // Lift and swing the flap open
         flap.animate([
@@ -3060,9 +3096,6 @@
       if (window._stopStars) window._stopStars();
       main.style.display = 'block';
 
-      // Start music on bride and groom page
-      playWeddingMusic();
-
       document.body.classList.remove('no-scroll');
       requestAnimationFrame(() => {
         main.style.transition = 'opacity .55s ease-out';
@@ -3076,6 +3109,10 @@
           setTimeout(() => el.classList.add('in'), i * 80);
         });
       });
+
+      // Reveal the (already playing, muted-fallback) music the instant the
+      // couple's names appear — no click required.
+      revealWeddingMusic();
 
       // Start countdown
       tickCountdown();
