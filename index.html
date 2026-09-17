@@ -541,6 +541,14 @@
       box-shadow: 0 0 0 20px rgba(193, 218, 197, 0.96);
       transition: inset 0.3s ease, box-shadow 0.3s ease;
       animation: framePulse 6s infinite ease-in-out;
+      /* Forces its own GPU compositing layer so iOS/Android Safari keeps it
+         pinned to the viewport instead of visibly re-anchoring (jump/scroll)
+         while the page scrolls. */
+      transform: translateZ(0);
+      -webkit-transform: translateZ(0);
+      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
+      will-change: transform;
     }
 
     @keyframes framePulse {
